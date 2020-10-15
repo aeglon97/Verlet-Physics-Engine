@@ -2,8 +2,8 @@
 #include <stdio.h>
 #include <iostream>
 
-const int SCREEN_WIDTH = 640;
-const int SCREEN_HEIGHT = 480;
+const int SCREEN_WIDTH = 1040;
+const int SCREEN_HEIGHT = 1080;
 
 //Main window to render to
 SDL_Window* gWindow = NULL;
@@ -29,6 +29,7 @@ bool Init()
     {
         //Create window
         gWindow = SDL_CreateWindow( "SDL Tutorial", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
+        // SDL_SetWindowResizable(gWindow, SDL_TRUE);
         if (gWindow == NULL)
         {
             std::cout << "Failed to create window. Error: " << SDL_GetError() << std::endl;
@@ -80,18 +81,37 @@ int main(int argc, char* args[])
     }
     else
     {
-        if(!LoadMedia("./img/lion.bmp"))
-        {
-            std::cout << "Failed to load media. Error: " << std::endl;
-        }
-        else
-        {
-            //Apply image
-            SDL_BlitSurface(gLion, NULL, gScreenSurface, NULL);
+        //Main loop flag
+        bool quit = false;
 
-            SDL_UpdateWindowSurface(gWindow);
+        //Event handler
+        SDL_Event e;
 
-            SDL_Delay(2000);
+        //Game lifetime
+        while(!quit)
+        {
+            //Handle events on queue
+            while(SDL_PollEvent(&e) != 0)
+            {
+                //Handle direct user input
+                if(e.type == SDL_QUIT)
+                {
+                    quit = true;
+                }
+            }
+
+
+            //Load media
+            if (!LoadMedia("./img/lion.bmp"))
+            {
+                std::cout << "Failed to load media. Error: " << SDL_GetError() << std::endl;
+            }
+            else
+            {
+                //Apply image
+                SDL_BlitSurface(gLion, NULL, gScreenSurface, NULL);
+                SDL_UpdateWindowSurface(gWindow);
+            }    
         }
     }
     Close();
