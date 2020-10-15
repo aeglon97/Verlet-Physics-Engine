@@ -31,6 +31,8 @@ SDL_Surface* gKeyPressSurfaces[KEY_PRESS_SURFACE_TOTAL];
 SDL_Surface* gCurrentSurface = NULL;
 
 
+
+
 //Game state
 bool quit;
 
@@ -68,12 +70,28 @@ bool Init()
 //Load individual image
 SDL_Surface* loadSurface(const char* path)
 {
+    //final optimized image
+    SDL_Surface* optimizedSurface = NULL;
+
+    //load image by path
     SDL_Surface* loadedSurface = SDL_LoadBMP(path);
     if (loadedSurface == NULL)
     {
         std::cout << "Unable to load image. Error: " << SDL_GetError() << std::endl;
     }
-    return loadedSurface;
+    else
+    {
+        //Convert surface to screen format
+        optimizedSurface = SDL_ConvertSurface(loadedSurface, gScreenSurface->format, 0);
+        if(optimizedSurface == NULL)
+        {
+            std::cout << "Unable to optimize image " << path << "\nError: " << SDL_GetError() << std::endl;
+        }
+
+        //Destroy old surface
+        SDL_FreeSurface(loadedSurface);
+    }
+    return optimizedSurface;
 }
 
 //Load images based on surface state
@@ -96,7 +114,6 @@ bool LoadMedia()
         std::cout << "Failed to load up image." << std::endl;
         success = false;
     }
-
 
     //Load down surface
     gKeyPressSurfaces[KEY_PRESS_SURFACE_DOWN] = loadSurface("./img/down.bmp");
@@ -121,7 +138,6 @@ bool LoadMedia()
         std::cout << "Failed to load right image." << std::endl;
         success = false;
     }
-
     return success;
 }
 
@@ -135,7 +151,6 @@ void Close()
     gWindow = NULL;
 
     SDL_Quit();
-
 }
 
 //Handle events on queue
@@ -174,7 +189,15 @@ void HandleEvents(SDL_Event e)
                 gCurrentSurface = gKeyPressSurfaces[KEY_PRESS_SURFACE_DEFAULT];
                 break;
             }
-            SDL_BlitSurface(gCurrentSurface, NULL, gScreenSurface, NULL);
+            
+            //Apply image stretched
+            SDL_Rect stretchRect;
+            stretchRect.x = 0;
+            stretchRect.y = 0;
+            stretchRect.w = SCREEN_WIDTH;
+            stretchRect.h = SCREEN_HEIGHT;
+            SDL_BlitScaled(gCurrentSurface, NULL, gScreenSurface, &stretchRect);
+
             SDL_UpdateWindowSurface(gWindow);
         }
     }
@@ -216,4 +239,3 @@ int main(int argc, char* args[])
     Close();
     return 0;
 }
-
