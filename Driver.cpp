@@ -14,6 +14,8 @@ SDL_Surface* gScreenSurface = NULL;
 //Image to load and render on screen
 SDL_Surface* gLion = NULL;
 
+bool quit;
+
 bool Init()
 {
     //Init flag
@@ -72,6 +74,18 @@ void Close()
 
 }
 
+//Handle events on queue
+void HandleEvents(SDL_Event e)
+{
+    while(SDL_PollEvent(&e) != 0)
+    {
+        if(e.type == SDL_QUIT)
+        {
+            quit = true;
+        }
+    }
+}
+
 int main(int argc, char* args[])
 {
     //Start up SDL and create window
@@ -82,7 +96,7 @@ int main(int argc, char* args[])
     else
     {
         //Main loop flag
-        bool quit = false;
+        quit = false;
 
         //Event handler
         SDL_Event e;
@@ -90,16 +104,7 @@ int main(int argc, char* args[])
         //Game lifetime
         while(!quit)
         {
-            //Handle events on queue
-            while(SDL_PollEvent(&e) != 0)
-            {
-                //Handle direct user input
-                if(e.type == SDL_QUIT)
-                {
-                    quit = true;
-                }
-            }
-
+            HandleEvents(e);
 
             //Load media
             if (!LoadMedia("./img/lion.bmp"))
