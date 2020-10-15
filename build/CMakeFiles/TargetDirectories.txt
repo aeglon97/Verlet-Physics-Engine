@@ -1,0 +1,3 @@
+/home/aeglon97/SWE/Verlet-Physics-Engine/build/CMakeFiles/rebuild_cache.dir
+/home/aeglon97/SWE/Verlet-Physics-Engine/build/CMakeFiles/edit_cache.dir
+/home/aeglon97/SWE/Verlet-Physics-Engine/build/CMakeFiles/verlet_simulator.dir

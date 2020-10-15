@@ -1,0 +1,16 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/aeglon97/SWE/Verlet-Physics-Engine/src/Driver.cpp
+SDL2/SDL.h
+-
+stdio.h
+-
+iostream
+-
+

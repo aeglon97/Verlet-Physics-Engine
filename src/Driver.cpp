@@ -30,9 +30,6 @@ SDL_Surface* gKeyPressSurfaces[KEY_PRESS_SURFACE_TOTAL];
 //Current displayed image
 SDL_Surface* gCurrentSurface = NULL;
 
-
-
-
 //Game state
 bool quit;
 
@@ -65,7 +62,6 @@ bool Init()
     }
     return success;
 }
-
 
 //Load individual image
 SDL_Surface* loadSurface(const char* path)
@@ -100,7 +96,7 @@ bool LoadMedia()
     bool success = true;
 
     //Load default surface
-    gKeyPressSurfaces[KEY_PRESS_SURFACE_DEFAULT] = loadSurface("./img/press.bmp");
+    gKeyPressSurfaces[KEY_PRESS_SURFACE_DEFAULT] = loadSurface("../img/press.bmp");
     if (gKeyPressSurfaces[KEY_PRESS_SURFACE_DEFAULT] == NULL)
     {
         std::cout << "Failed to load default image." << std::endl;
@@ -108,7 +104,7 @@ bool LoadMedia()
     }
 
     //Load up surface
-    gKeyPressSurfaces[KEY_PRESS_SURFACE_UP] = loadSurface("./img/up.bmp");
+    gKeyPressSurfaces[KEY_PRESS_SURFACE_UP] = loadSurface("../img/up.bmp");
     if (gKeyPressSurfaces[KEY_PRESS_SURFACE_UP] == NULL)
     {
         std::cout << "Failed to load up image." << std::endl;
@@ -116,7 +112,7 @@ bool LoadMedia()
     }
 
     //Load down surface
-    gKeyPressSurfaces[KEY_PRESS_SURFACE_DOWN] = loadSurface("./img/down.bmp");
+    gKeyPressSurfaces[KEY_PRESS_SURFACE_DOWN] = loadSurface("../img/down.bmp");
     if (gKeyPressSurfaces[KEY_PRESS_SURFACE_DOWN] == NULL)
     {
         std::cout << "Failed to load down image." << std::endl;
@@ -124,7 +120,7 @@ bool LoadMedia()
     }
 
     //Load left surface
-    gKeyPressSurfaces[KEY_PRESS_SURFACE_LEFT] = loadSurface("./img/left.bmp");
+    gKeyPressSurfaces[KEY_PRESS_SURFACE_LEFT] = loadSurface("../img/left.bmp");
     if (gKeyPressSurfaces[KEY_PRESS_SURFACE_LEFT] == NULL)
     {
         std::cout << "Failed to load left image." << std::endl;
@@ -132,7 +128,7 @@ bool LoadMedia()
     }
 
     //Load right surface
-    gKeyPressSurfaces[KEY_PRESS_SURFACE_RIGHT] = loadSurface("./img/right.bmp");
+    gKeyPressSurfaces[KEY_PRESS_SURFACE_RIGHT] = loadSurface("../img/right.bmp");
      if (gKeyPressSurfaces[KEY_PRESS_SURFACE_RIGHT] == NULL)
     {
         std::cout << "Failed to load right image." << std::endl;
@@ -232,7 +228,7 @@ int main(int argc, char* args[])
             }
             else
             {
-                //Apply image
+                
             }    
         }
     }
