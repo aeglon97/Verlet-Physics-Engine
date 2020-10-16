@@ -1,6 +1,7 @@
 #include <SDL2/SDL.h>
 #include <stdio.h>
 #include <iostream>
+#include "game.h"
 //Key press events constants
 enum KeyPressSurface
 {
@@ -196,39 +197,40 @@ void HandleEvents(SDL_Event e)
     }
 }
 
-
 int main(int argc, char* args[])
 {
+    Game game(SCREEN_WIDTH, SCREEN_HEIGHT);
+    game.Run();
     //Start up SDL and create window
-    if (!Init())
-    {
-        std::cout << "SDL failed to initialize." << std::endl;
-    }
-    else
-    {
-        //Main loop flag
-        quit = false;
+    // if (!Init())
+    // {
+    //     std::cout << "SDL failed to initialize." << std::endl;
+    // }
+    // else
+    // {
+    //     //Main loop flag
+    //     quit = false;
 
-        //Event handler
-        SDL_Event e;
-        gCurrentSurface = gKeyPressSurfaces[KEY_PRESS_SURFACE_DEFAULT];
+    //     //Event handler
+    //     SDL_Event e;
+    //     gCurrentSurface = gKeyPressSurfaces[KEY_PRESS_SURFACE_DEFAULT];
 
-        //Game lifetime
-        while(!quit)
-        {
-            HandleEvents(e);
+    //     //Game lifetime
+    //     while(!quit)
+    //     {
+    //         HandleEvents(e);
 
-            //Load media
-            if (!LoadMedia())
-            {
-                std::cout << "Failed to load media. Error: " << SDL_GetError() << std::endl;
-            }
-            else
-            {
+    //         //Load media
+    //         if (!LoadMedia())
+    //         {
+    //             std::cout << "Failed to load media. Error: " << SDL_GetError() << std::endl;
+    //         }
+    //         else
+    //         {
                 
-            }    
-        }
-    }
-    Close();
+    //         }    
+    //     }
+    // }
+    // Close();
     return 0;
 }
