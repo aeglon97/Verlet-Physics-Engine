@@ -12,12 +12,24 @@ Renderer::Renderer(const int screenWidth, const int screenHeight)
 
 SDL_Surface* Renderer::LoadSurface(const char* path)
 {
+    //Final optimized surface
+    SDL_Surface* optimizedSurface = NULL;
     SDL_Surface* loadedSurface = SDL_LoadBMP(path);
     if(!loadedSurface)
     {
         std::cout << "Unable to load image. Error: " << SDL_GetError() << std::endl;
     }
-    return loadedSurface;
+    else
+    {
+        //Convert surface to screen format
+        optimizedSurface = SDL_ConvertSurface(loadedSurface, _screenSurface->format, 0);
+        if(optimizedSurface == NULL)
+        {
+            std::cerr << "Could not optimize image. Error: " << SDL_GetError() << std::endl;
+        }
+        SDL_FreeSurface(loadedSurface);
+    }
+    return optimizedSurface;
 }
 
 bool Renderer::LoadMedia(Controller &controller)
@@ -109,4 +121,22 @@ void Renderer::Close()
     _currentSurface = NULL;
     SDL_DestroyWindow(_window);
     SDL_Quit();
+}
+
+//Create a rectangle filling up the whole screen
+SDL_Rect Renderer::CreateStretchedRect()
+{
+    SDL_Rect stretchRect;
+    stretchRect.x = 0;
+    stretchRect.y = 0;
+    stretchRect.w = _screenWidth;
+    stretchRect.h = _screenHeight;
+    return stretchRect;
+}
+
+//Convert current surface image to full size
+void Renderer::DisplayFullSize(SDL_Rect rect)
+{
+    SDL_BlitScaled(_currentSurface, NULL, _screenSurface, &rect);   
+    SDL_UpdateWindowSurface(_window);
 }

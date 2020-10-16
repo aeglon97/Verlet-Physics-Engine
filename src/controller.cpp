@@ -51,6 +51,9 @@ void Controller::HandleEvents(SDL_Event e, Renderer &renderer)
             }
         }
     }
+
+    SDL_Rect stretchedRect = renderer.CreateStretchedRect();
+    renderer.DisplayFullSize(stretchedRect);
 }
 
 void Controller::toggleQuit(bool flag)

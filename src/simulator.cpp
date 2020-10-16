@@ -29,8 +29,8 @@ void Simulator::Run(Renderer& renderer, Controller& controller)
             }
             else
             {
-                SDL_BlitSurface(renderer.getCurrentSurface(), NULL, renderer.getScreenSurface(), NULL);
-                SDL_UpdateWindowSurface(renderer.getWindow());
+                // SDL_BlitSurface(renderer.getCurrentSurface(), NULL, renderer.getScreenSurface(), NULL);
+                // SDL_UpdateWindowSurface(renderer.getWindow());
 
             }
 
