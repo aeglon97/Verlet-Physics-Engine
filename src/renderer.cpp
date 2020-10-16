@@ -17,7 +17,7 @@ bool Renderer::LoadMedia()
     _helloWorld = SDL_LoadBMP( "../img/hello_world.bmp");
     if( _helloWorld == NULL )
     {
-        std::cout << "Failed to load default image." << std::endl;
+        std::cerr << "Failed to load default image." << std::endl;
         success = false;
     }
 
@@ -31,17 +31,17 @@ bool Renderer::Init()
     //Initialize SDL
     if (SDL_Init(SDL_INIT_VIDEO) < 0)
     {
-        std::cout << "SDL initialization failed. Error: " << SDL_GetError() << std::endl;
+        std::cerr << "SDL initialization failed. Error: " << SDL_GetError() << std::endl;
         success = false;   
     }
     else
     {
         //Create window
-        _window = SDL_CreateWindow( "SDL Tutorial", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, _screenWidth, _screenHeight, SDL_WINDOW_SHOWN );
+        _window = SDL_CreateWindow( "SDL Window", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, _screenWidth, _screenHeight, SDL_WINDOW_SHOWN );
         // SDL_SetWindowResizable(gWindow, SDL_TRUE);
         if (_window == NULL)
         {
-            std::cout << "Failed to create window. Error: " << SDL_GetError() << std::endl;
+            std::cerr << "Failed to create window. Error: " << SDL_GetError() << std::endl;
             success = false;
         }
         else

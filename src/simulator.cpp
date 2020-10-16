@@ -2,13 +2,13 @@
 #include <stdio.h>
 #include <iostream>
 
-#include "game.h"
+#include "simulator.h"
 
-void Game::Run(Renderer& renderer, Controller& controller)
+void Simulator::Run(Renderer& renderer, Controller& controller)
 {
     if (!renderer.Init())
     {
-        std::cout << "SDL failed to initialize." << std::endl;
+        std::cerr << "SDL failed to initialize." << std::endl;
     }
     else
     {
@@ -23,7 +23,7 @@ void Game::Run(Renderer& renderer, Controller& controller)
             //Handle media
             if(!renderer.LoadMedia())
             {
-                std::cout << "Failed to load media." << std::endl;
+                std::cerr << "Failed to load media." << std::endl;
             }
             else
             {
@@ -31,8 +31,7 @@ void Game::Run(Renderer& renderer, Controller& controller)
                 SDL_UpdateWindowSurface(renderer.getWindow());
             }
 
-            //Update
-            
+            //Insert activity
         }   
     }
     renderer.Close();

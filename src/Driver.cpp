@@ -1,7 +1,7 @@
 #include <SDL2/SDL.h>
 #include <stdio.h>
 #include <iostream>
-#include "game.h"
+#include "simulator.h"
 //Key press events constants
 enum KeyPressSurface
 {
@@ -39,7 +39,7 @@ bool quit;
 //     //Initialize SDL
 //     if (SDL_Init(SDL_INIT_VIDEO) < 0)
 //     {
-//         std::cout << "SDL initialization failed. Error: " << SDL_GetError() << std::endl;
+//         std::cerr << "SDL initialization failed. Error: " << SDL_GetError() << std::endl;
 //         success = false;   
 //     }
 //     else
@@ -49,7 +49,7 @@ bool quit;
 //         // SDL_SetWindowResizable(gWindow, SDL_TRUE);
 //         if (gWindow == NULL)
 //         {
-//             std::cout << "Failed to create window. Error: " << SDL_GetError() << std::endl;
+//             std::cerr << "Failed to create window. Error: " << SDL_GetError() << std::endl;
 //             success = false;
 //         }
 //         else
@@ -71,7 +71,7 @@ SDL_Surface* loadSurface(const char* path)
     SDL_Surface* loadedSurface = SDL_LoadBMP(path);
     if (loadedSurface == NULL)
     {
-        std::cout << "Unable to load image. Error: " << SDL_GetError() << std::endl;
+        std::cerr << "Unable to load image. Error: " << SDL_GetError() << std::endl;
     }
     else
     {
@@ -79,7 +79,7 @@ SDL_Surface* loadSurface(const char* path)
         optimizedSurface = SDL_ConvertSurface(loadedSurface, gScreenSurface->format, 0);
         if(optimizedSurface == NULL)
         {
-            std::cout << "Unable to optimize image " << path << "\nError: " << SDL_GetError() << std::endl;
+            std::cerr << "Unable to optimize image " << path << "\nError: " << SDL_GetError() << std::endl;
         }
 
         //Destroy old surface
@@ -97,7 +97,7 @@ bool LoadMedia()
     gKeyPressSurfaces[KEY_PRESS_SURFACE_DEFAULT] = loadSurface("../img/press.bmp");
     if (gKeyPressSurfaces[KEY_PRESS_SURFACE_DEFAULT] == NULL)
     {
-        std::cout << "Failed to load default image." << std::endl;
+        std::cerr << "Failed to load default image." << std::endl;
         success = false;
     }
 
@@ -105,7 +105,7 @@ bool LoadMedia()
     gKeyPressSurfaces[KEY_PRESS_SURFACE_UP] = loadSurface("../img/up.bmp");
     if (gKeyPressSurfaces[KEY_PRESS_SURFACE_UP] == NULL)
     {
-        std::cout << "Failed to load up image." << std::endl;
+        std::cerr << "Failed to load up image." << std::endl;
         success = false;
     }
 
@@ -113,7 +113,7 @@ bool LoadMedia()
     gKeyPressSurfaces[KEY_PRESS_SURFACE_DOWN] = loadSurface("../img/down.bmp");
     if (gKeyPressSurfaces[KEY_PRESS_SURFACE_DOWN] == NULL)
     {
-        std::cout << "Failed to load down image." << std::endl;
+        std::cerr << "Failed to load down image." << std::endl;
         success = false;
     }
 
@@ -121,7 +121,7 @@ bool LoadMedia()
     gKeyPressSurfaces[KEY_PRESS_SURFACE_LEFT] = loadSurface("../img/left.bmp");
     if (gKeyPressSurfaces[KEY_PRESS_SURFACE_LEFT] == NULL)
     {
-        std::cout << "Failed to load left image." << std::endl;
+        std::cerr << "Failed to load left image." << std::endl;
         success = false;
     }
 
@@ -129,7 +129,7 @@ bool LoadMedia()
     gKeyPressSurfaces[KEY_PRESS_SURFACE_RIGHT] = loadSurface("../img/right.bmp");
      if (gKeyPressSurfaces[KEY_PRESS_SURFACE_RIGHT] == NULL)
     {
-        std::cout << "Failed to load right image." << std::endl;
+        std::cerr << "Failed to load right image." << std::endl;
         success = false;
     }
     return success;
@@ -201,12 +201,12 @@ int main(int argc, char* args[])
 {
     Renderer renderer(SCREEN_WIDTH, SCREEN_HEIGHT);
     Controller controller;
-    Game game;
-    game.Run(renderer, controller);
+    Simulator simulator;
+    simulator.Run(renderer, controller);
     //Start up SDL and create window
     // if (!Init())
     // {
-    //     std::cout << "SDL failed to initialize." << std::endl;
+    //     std::cerr << "SDL failed to initialize." << std::endl;
     // }
     // else
     // {
@@ -225,7 +225,7 @@ int main(int argc, char* args[])
     //         //Load media
     //         if (!LoadMedia())
     //         {
-    //             std::cout << "Failed to load media. Error: " << SDL_GetError() << std::endl;
+    //             std::cerr << "Failed to load media. Error: " << SDL_GetError() << std::endl;
     //         }
     //         else
     //         {

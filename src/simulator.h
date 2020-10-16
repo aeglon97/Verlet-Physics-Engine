@@ -8,7 +8,7 @@
 #include "renderer.h"
 #include "controller.h"
 
-class Game
+class Simulator
 {
 public:
     void Run(Renderer& renderer, Controller& controller);
