@@ -5,19 +5,14 @@
 #include <stdio.h>
 #include <iostream>
 
+#include "renderer.h"
+
 class Game
 {
 public:
-    Game(const int screenWidth, const int screenHeight);
-    ~Game();
-    bool Init();
-    void Run();
+    void Run(Renderer& renderer);
 
 private:
-    SDL_Window* _window{NULL};
-    SDL_Surface* _screenSurface{NULL};
-    const int _screenWidth{0};
-    const int _screenHeight{0};
 };
 
 #endif
