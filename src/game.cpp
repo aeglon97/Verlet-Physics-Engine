@@ -12,13 +12,24 @@ void Game::Run(Renderer& renderer)
     }
     else
     {
-        bool running = true;
-        while(running)
+        if(!renderer.LoadMedia())
         {
-            // DL_FillRect(_screenSurface, NULL, SDL_MapRGB( _screenSurface->format, 0xFF, 0xFF, 0xFF ));
+            std::cout << "Failed to load media." << std::endl;
+        }
+        else
+        {
+            SDL_BlitSurface(renderer.getHelloWorld(), NULL, renderer.getScreenSurface(), NULL);
             SDL_UpdateWindowSurface(renderer.getWindow());
             SDL_Delay(2000);
-            running = false;
         }
+        
+        // bool running = true;
+        // while(running)
+        // {
+        //     // DL_FillRect(_screenSurface, NULL, SDL_MapRGB( _screenSurface->format, 0xFF, 0xFF, 0xFF ));
+        //     SDL_UpdateWindowSurface(renderer.getWindow());
+        //     SDL_Delay(2000);
+        //     running = false;
+        // }
     }
 }

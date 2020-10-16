@@ -10,6 +10,22 @@ Renderer::Renderer(const int screenWidth, const int screenHeight)
         Init();
     }
 
+bool Renderer::LoadMedia()
+{
+    //Loading success flag
+    bool success = true;
+
+    //Load splash image
+    _helloWorld = SDL_LoadBMP( "../img/hello_world.bmp");
+    if( _helloWorld == NULL )
+    {
+        std::cout << "Failed to load default image." << std::endl;
+        success = false;
+    }
+
+    return success;
+}
+
 bool Renderer::Init()
 {
     bool success = true;
@@ -41,6 +57,9 @@ bool Renderer::Init()
 
 Renderer::~Renderer()
 {   
+    //Deallocate surface
+    SDL_FreeSurface(_helloWorld);
+    _helloWorld = NULL;
     SDL_DestroyWindow(_window);
     SDL_Quit();
 }

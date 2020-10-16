@@ -31,35 +31,35 @@ SDL_Surface* gCurrentSurface = NULL;
 //Game state
 bool quit;
 
-bool Init()
-{
-    //Init flag
-    bool success = true;
+// bool Init()
+// {
+//     //Init flag
+//     bool success = true;
 
-    //Initialize SDL
-    if (SDL_Init(SDL_INIT_VIDEO) < 0)
-    {
-        std::cout << "SDL initialization failed. Error: " << SDL_GetError() << std::endl;
-        success = false;   
-    }
-    else
-    {
-        //Create window
-        gWindow = SDL_CreateWindow( "SDL Tutorial", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
-        // SDL_SetWindowResizable(gWindow, SDL_TRUE);
-        if (gWindow == NULL)
-        {
-            std::cout << "Failed to create window. Error: " << SDL_GetError() << std::endl;
-            success = false;
-        }
-        else
-        {
-            //Get window surface
-            gScreenSurface = SDL_GetWindowSurface(gWindow);
-        }
-    }
-    return success;
-}
+//     //Initialize SDL
+//     if (SDL_Init(SDL_INIT_VIDEO) < 0)
+//     {
+//         std::cout << "SDL initialization failed. Error: " << SDL_GetError() << std::endl;
+//         success = false;   
+//     }
+//     else
+//     {
+//         //Create window
+//         gWindow = SDL_CreateWindow( "SDL Tutorial", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
+//         // SDL_SetWindowResizable(gWindow, SDL_TRUE);
+//         if (gWindow == NULL)
+//         {
+//             std::cout << "Failed to create window. Error: " << SDL_GetError() << std::endl;
+//             success = false;
+//         }
+//         else
+//         {
+//             //Get window surface
+//             gScreenSurface = SDL_GetWindowSurface(gWindow);
+//         }
+//     }
+//     return success;
+// }
 
 //Load individual image
 SDL_Surface* loadSurface(const char* path)
