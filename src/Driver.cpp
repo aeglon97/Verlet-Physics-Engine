@@ -21,9 +21,6 @@ SDL_Window* gWindow = NULL;
 //Window surface (sceen)
 SDL_Surface* gScreenSurface = NULL;
 
-//Image to load and render on screen
-SDL_Surface* gLion = NULL;
-
 //Map key presses to images
 SDL_Surface* gKeyPressSurfaces[KEY_PRESS_SURFACE_TOTAL];
 
@@ -140,8 +137,8 @@ bool LoadMedia()
 void Close()
 {
     //Deallocate surface from memory
-    SDL_FreeSurface(gLion);
-    gLion = NULL;
+    SDL_FreeSurface(gCurrentSurface);
+    gCurrentSurface = NULL;
 
     SDL_DestroyWindow(gWindow);
     gWindow = NULL;
