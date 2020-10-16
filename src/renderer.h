@@ -9,9 +9,10 @@ class Renderer
 {
 public:
     Renderer(const int screenWidth, const int screenHeight);
-    ~Renderer();
+    // ~Renderer();
     bool Init();
     bool LoadMedia();
+    void Close();
 
     //getters/setters
     const int getScreenWidth() { return _screenWidth; }

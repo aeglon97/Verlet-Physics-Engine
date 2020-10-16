@@ -5,10 +5,8 @@
 #include "renderer.h"
 
 Renderer::Renderer(const int screenWidth, const int screenHeight)
-    : _screenWidth(screenWidth), _screenHeight(screenHeight)
-    {
-        Init();
-    }
+    : _screenWidth(screenWidth), 
+      _screenHeight(screenHeight){}
 
 bool Renderer::LoadMedia()
 {
@@ -55,7 +53,7 @@ bool Renderer::Init()
     return success;
 }
 
-Renderer::~Renderer()
+void Renderer::Close()
 {   
     //Deallocate surface
     SDL_FreeSurface(_helloWorld);
