@@ -4,7 +4,7 @@
 
 #include "game.h"
 
-void Game::Run(Renderer& renderer)
+void Game::Run(Renderer& renderer, Controller& controller)
 {
     if (!renderer.Init())
     {
@@ -12,20 +12,13 @@ void Game::Run(Renderer& renderer)
     }
     else
     {
-        bool quit = false;
+        
         SDL_Event e;
 
-        while (!quit)
+        while (!controller.hasQuit())
         {
             //Handle events
-            while(SDL_PollEvent(&e) != 0)
-            {
-                if(e.type == SDL_QUIT)
-                {
-                    quit = true;
-                    
-                }
-            }
+            controller.HandleEvents(e);
 
             //Handle media
             if(!renderer.LoadMedia())

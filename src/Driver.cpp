@@ -200,8 +200,9 @@ void HandleEvents(SDL_Event e)
 int main(int argc, char* args[])
 {
     Renderer renderer(SCREEN_WIDTH, SCREEN_HEIGHT);
+    Controller controller;
     Game game;
-    game.Run(renderer);
+    game.Run(renderer, controller);
     //Start up SDL and create window
     // if (!Init())
     // {

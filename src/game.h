@@ -6,11 +6,12 @@
 #include <iostream>
 
 #include "renderer.h"
+#include "controller.h"
 
 class Game
 {
 public:
-    void Run(Renderer& renderer);
+    void Run(Renderer& renderer, Controller& controller);
 
 private:
 };
