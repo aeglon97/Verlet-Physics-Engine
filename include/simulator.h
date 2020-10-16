@@ -6,7 +6,6 @@
 #include <iostream>
 
 #include "renderer.h"
-#include "controller.h"
 
 class Simulator
 {

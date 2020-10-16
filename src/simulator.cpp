@@ -13,22 +13,25 @@ void Simulator::Run(Renderer& renderer, Controller& controller)
     else
     {
         
-        SDL_Event e;
+        SDL_Event e;        
+        SDL_Surface* keyPressDefaultSurface = controller.keyPressSurfaces[controller.KEY_PRESS_SURFACE_DEFAULT];
+        renderer.SetCurrentSurface(renderer.LoadSurface("../img/press.bmp"));
 
         while (!controller.hasQuit())
         {
             //Handle events
-            controller.HandleEvents(e);
+            controller.HandleEvents(e, renderer);
 
             //Handle media
-            if(!renderer.LoadMedia())
+            if(!renderer.LoadMedia(controller))
             {
                 std::cerr << "Failed to load media." << std::endl;
             }
             else
             {
-                SDL_BlitSurface(renderer.getHelloWorld(), NULL, renderer.getScreenSurface(), NULL);
+                SDL_BlitSurface(renderer.getCurrentSurface(), NULL, renderer.getScreenSurface(), NULL);
                 SDL_UpdateWindowSurface(renderer.getWindow());
+
             }
 
             //Insert activity

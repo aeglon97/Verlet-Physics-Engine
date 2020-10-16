@@ -4,20 +4,64 @@
 
 #include "renderer.h"
 
+class Controller;
+
 Renderer::Renderer(const int screenWidth, const int screenHeight)
     : _screenWidth(screenWidth), 
       _screenHeight(screenHeight){}
 
-bool Renderer::LoadMedia()
+SDL_Surface* Renderer::LoadSurface(const char* path)
+{
+    SDL_Surface* loadedSurface = SDL_LoadBMP(path);
+    if(!loadedSurface)
+    {
+        std::cout << "Unable to load image. Error: " << SDL_GetError() << std::endl;
+    }
+    return loadedSurface;
+}
+
+bool Renderer::LoadMedia(Controller &controller)
 {
     //Loading success flag
     bool success = true;
 
-    //Load splash image
-    _helloWorld = SDL_LoadBMP( "../img/hello_world.bmp");
-    if( _helloWorld == NULL )
+    //Load default surface
+    controller.keyPressSurfaces[controller.KEY_PRESS_SURFACE_DEFAULT] = LoadSurface("../img/press.bmp");
+    if(controller.keyPressSurfaces[controller.KEY_PRESS_SURFACE_DEFAULT] == NULL)
     {
-        std::cerr << "Failed to load default image." << std::endl;
+        std::cout << "Failed to load default image. Error: " << SDL_GetError() << std::endl;
+        success = false;
+    }
+
+    //Load up surface
+    controller.keyPressSurfaces[controller.KEY_PRESS_SURFACE_UP] = LoadSurface("../img/up.bmp");
+    if(controller.keyPressSurfaces[controller.KEY_PRESS_SURFACE_UP] == NULL)
+    {
+        std::cout << "Failed to load up image. Error: " << SDL_GetError() << std::endl;
+        success = false;
+    }
+
+    //Load up surface
+    controller.keyPressSurfaces[controller.KEY_PRESS_SURFACE_DOWN] = LoadSurface("../img/down.bmp");
+    if(controller.keyPressSurfaces[controller.KEY_PRESS_SURFACE_DOWN] == NULL)
+    {
+        std::cout << "Failed to load up image. Error: " << SDL_GetError() << std::endl;
+        success = false;
+    }
+
+    //Load up surface
+    controller.keyPressSurfaces[controller.KEY_PRESS_SURFACE_LEFT] = LoadSurface("../img/left.bmp");
+    if(controller.keyPressSurfaces[controller.KEY_PRESS_SURFACE_LEFT] == NULL)
+    {
+        std::cout << "Failed to load up image. Error: " << SDL_GetError() << std::endl;
+        success = false;
+    }
+
+    //Load up surface
+    controller.keyPressSurfaces[controller.KEY_PRESS_SURFACE_RIGHT] = LoadSurface("../img/right.bmp");
+    if(controller.keyPressSurfaces[controller.KEY_PRESS_SURFACE_RIGHT] == NULL)
+    {
+        std::cout << "Failed to load up image. Error: " << SDL_GetError() << std::endl;
         success = false;
     }
 
@@ -53,11 +97,16 @@ bool Renderer::Init()
     return success;
 }
 
+void Renderer::SetCurrentSurface(SDL_Surface* surface)
+{
+    _currentSurface = surface;
+}
+
 void Renderer::Close()
 {   
     //Deallocate surface
-    SDL_FreeSurface(_helloWorld);
-    _helloWorld = NULL;
+    SDL_FreeSurface(_currentSurface);
+    _currentSurface = NULL;
     SDL_DestroyWindow(_window);
     SDL_Quit();
 }
