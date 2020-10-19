@@ -11,6 +11,32 @@ Renderer::Renderer(const int screenWidth, const int screenHeight)
     : _screenWidth(screenWidth), 
       _screenHeight(screenHeight){}
 
+SDL_Texture* Renderer::LoadTexture(const char* path)
+{   
+    //Final texture
+    SDL_Texture* newTexture = NULL;
+
+    //Load image at specified path
+    SDL_Surface* loadedSurface = IMG_Load(path);
+    if(loadedSurface == NULL)
+    {
+        std::cerr << "Unable to load image. Error: " << SDL_GetError() << std::endl;
+    }
+    else
+    {
+        //Create texture from surface pixels
+        newTexture = SDL_CreateTextureFromSurface(_renderer, loadedSurface);
+        if(newTexture == NULL)
+        {
+            std::cerr << "Unable to create texture from " << path << ". Error: " << SDL_GetError() << std::endl;
+        }
+
+        //Get rid of old loaded surface
+        SDL_FreeSurface(loadedSurface);
+    }
+    return newTexture;
+}
+
 SDL_Surface* Renderer::LoadSurface(const char* path)
 {
     //Final optimized surface
@@ -38,45 +64,52 @@ bool Renderer::LoadMedia(Controller &controller)
     //Loading success flag
     bool success = true;
 
+    //Load PNG texture
+    _texture = LoadTexture("../img/background1.jpeg");
+    if(_texture == NULL)
+    {
+        std::cerr << "Failed to load texture image. Error: " << SDL_GetError() << std::endl;
+        success = false;
+    }
     //Load default surface
-    controller.keyPressSurfaces[controller.KEY_PRESS_SURFACE_DEFAULT] = LoadSurface("../img/press.bmp");
-    if(controller.keyPressSurfaces[controller.KEY_PRESS_SURFACE_DEFAULT] == NULL)
-    {
-        std::cout << "Failed to load default image. Error: " << SDL_GetError() << std::endl;
-        success = false;
-    }
+    // controller.keyPressSurfaces[controller.KEY_PRESS_SURFACE_DEFAULT] = LoadSurface("../img/press.bmp");
+    // if(controller.keyPressSurfaces[controller.KEY_PRESS_SURFACE_DEFAULT] == NULL)
+    // {
+    //     std::cout << "Failed to load default image. Error: " << SDL_GetError() << std::endl;
+    //     success = false;
+    // }
 
     //Load up surface
-    controller.keyPressSurfaces[controller.KEY_PRESS_SURFACE_UP] = LoadSurface("../img/up.bmp");
-    if(controller.keyPressSurfaces[controller.KEY_PRESS_SURFACE_UP] == NULL)
-    {
-        std::cout << "Failed to load up image. Error: " << SDL_GetError() << std::endl;
-        success = false;
-    }
+    // controller.keyPressSurfaces[controller.KEY_PRESS_SURFACE_UP] = LoadSurface("../img/up.bmp");
+    // if(controller.keyPressSurfaces[controller.KEY_PRESS_SURFACE_UP] == NULL)
+    // {
+    //     std::cout << "Failed to load up image. Error: " << SDL_GetError() << std::endl;
+    //     success = false;
+    // }
 
-    //Load up surface
-    controller.keyPressSurfaces[controller.KEY_PRESS_SURFACE_DOWN] = LoadSurface("../img/down.bmp");
-    if(controller.keyPressSurfaces[controller.KEY_PRESS_SURFACE_DOWN] == NULL)
-    {
-        std::cout << "Failed to load up image. Error: " << SDL_GetError() << std::endl;
-        success = false;
-    }
+    // //Load up surface
+    // controller.keyPressSurfaces[controller.KEY_PRESS_SURFACE_DOWN] = LoadSurface("../img/down.bmp");
+    // if(controller.keyPressSurfaces[controller.KEY_PRESS_SURFACE_DOWN] == NULL)
+    // {
+    //     std::cout << "Failed to load up image. Error: " << SDL_GetError() << std::endl;
+    //     success = false;
+    // }
 
-    //Load up surface
-    controller.keyPressSurfaces[controller.KEY_PRESS_SURFACE_LEFT] = LoadSurface("../img/left.bmp");
-    if(controller.keyPressSurfaces[controller.KEY_PRESS_SURFACE_LEFT] == NULL)
-    {
-        std::cout << "Failed to load up image. Error: " << SDL_GetError() << std::endl;
-        success = false;
-    }
+    // //Load up surface
+    // controller.keyPressSurfaces[controller.KEY_PRESS_SURFACE_LEFT] = LoadSurface("../img/left.bmp");
+    // if(controller.keyPressSurfaces[controller.KEY_PRESS_SURFACE_LEFT] == NULL)
+    // {
+    //     std::cout << "Failed to load up image. Error: " << SDL_GetError() << std::endl;
+    //     success = false;
+    // }
 
-    //Load up surface
-    controller.keyPressSurfaces[controller.KEY_PRESS_SURFACE_RIGHT] = LoadSurface("../img/right.bmp");
-    if(controller.keyPressSurfaces[controller.KEY_PRESS_SURFACE_RIGHT] == NULL)
-    {
-        std::cout << "Failed to load up image. Error: " << SDL_GetError() << std::endl;
-        success = false;
-    }
+    // //Load up surface
+    // controller.keyPressSurfaces[controller.KEY_PRESS_SURFACE_RIGHT] = LoadSurface("../img/right.bmp");
+    // if(controller.keyPressSurfaces[controller.KEY_PRESS_SURFACE_RIGHT] == NULL)
+    // {
+    //     std::cout << "Failed to load up image. Error: " << SDL_GetError() << std::endl;
+    //     success = false;
+    // }
 
     return success;
 }
@@ -103,16 +136,27 @@ bool Renderer::Init()
         }
         else
         {
-            //Initialize PNG loading
-            int imgFlags = IMG_INIT_PNG;
-            if(!IMG_Init(imgFlags) & imgFlags)
+            //Create renderer for window
+            _renderer = SDL_CreateRenderer(_window, -1, SDL_RENDERER_ACCELERATED);
+            if(_renderer == NULL)
             {
-                std:: cerr << "SDL image could not initialize. Error: " << SDL_GetError() << std::endl;
+                std::cerr << "Renderer could not be created. Error: " << SDL_GetError() << std::endl;
+                success = false;
             }
             else
             {
                 //Get window surface
-                _screenSurface = SDL_GetWindowSurface(_window);
+                // _screenSurface = SDL_GetWindowSurface(_window);
+
+                //Initialize renderer color
+                SDL_SetRenderDrawColor(_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+
+                //Initialize PNG loading
+                int imgFlags = IMG_INIT_PNG;
+                if(!(IMG_Init(imgFlags) & imgFlags))
+                {
+                    std::cerr << "SDL_image could not initialize. Error: " << SDL_GetError() << std::endl;
+                }    
             }
         }
     }
@@ -126,10 +170,20 @@ void Renderer::SetCurrentSurface(SDL_Surface* surface)
 
 void Renderer::Close()
 {   
-    //Deallocate surface
+    //Free loaded image
+    SDL_DestroyTexture(_texture);
+    _texture = NULL;
+
+    //Destroy window
+    SDL_DestroyRenderer(_renderer);
+    SDL_DestroyWindow(_window);
     SDL_FreeSurface(_currentSurface);
     _currentSurface = NULL;
-    SDL_DestroyWindow(_window);
+    _renderer = NULL;
+    _window = NULL;
+
+    //Quit SDL systems
+    IMG_Quit();
     SDL_Quit();
 }
 

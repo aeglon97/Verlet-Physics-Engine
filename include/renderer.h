@@ -14,11 +14,15 @@ class Renderer
 {
 public:
     Renderer(const int screenWidth, const int screenHeight);
-    // ~Renderer();
+    
     bool Init();
     bool LoadMedia(Controller &controller);
     void Close();
     SDL_Surface* LoadSurface(const char* path);
+
+    //Texture handling
+    SDL_Texture* LoadTexture(const char* path);
+
 
     //getters/setters
     const int getScreenWidth() { return _screenWidth; }
@@ -32,11 +36,23 @@ public:
     SDL_Rect CreateStretchedRect();
     void DisplayFullSize(SDL_Rect rect);
 
+    void setRenderer(SDL_Window*, int i) {
+        _renderer = SDL_CreateRenderer(_window, i, SDL_RENDERER_ACCELERATED);
+    }
+
+    SDL_Renderer* getRenderer() { return _renderer; }
+
+    SDL_Texture* getTexture() { return _texture; }
+
 private:
     SDL_Window* _window{NULL};
     SDL_Surface* _screenSurface{NULL};
     SDL_Surface* _currentSurface{NULL};
     SDL_Surface* _stretchedSurface{NULL};
+
+    //Built-in renderer
+    SDL_Renderer* _renderer{NULL};
+    SDL_Texture* _texture{NULL};
 
     const int _screenWidth{0};
     const int _screenHeight{0};
