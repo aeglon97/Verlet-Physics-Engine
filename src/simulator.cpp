@@ -15,7 +15,7 @@ void Simulator::Run(Renderer& renderer, Controller& controller)
         
         SDL_Event e;        
         SDL_Surface* keyPressDefaultSurface = controller.keyPressSurfaces[controller.KEY_PRESS_SURFACE_DEFAULT];
-        renderer.SetCurrentSurface(renderer.LoadSurface("../img/press.bmp"));
+        renderer.SetCurrentSurface(renderer.LoadSurface("../img/background1.jpeg"));
 
         while (!controller.hasQuit())
         {

@@ -1,4 +1,5 @@
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 #include <stdio.h>
 #include <iostream>
 
@@ -14,7 +15,7 @@ SDL_Surface* Renderer::LoadSurface(const char* path)
 {
     //Final optimized surface
     SDL_Surface* optimizedSurface = NULL;
-    SDL_Surface* loadedSurface = SDL_LoadBMP(path);
+    SDL_Surface* loadedSurface = IMG_Load(path);
     if(!loadedSurface)
     {
         std::cout << "Unable to load image. Error: " << SDL_GetError() << std::endl;
@@ -102,8 +103,17 @@ bool Renderer::Init()
         }
         else
         {
-            //Get window surface
-            _screenSurface = SDL_GetWindowSurface(_window);
+            //Initialize PNG loading
+            int imgFlags = IMG_INIT_PNG;
+            if(!IMG_Init(imgFlags) & imgFlags)
+            {
+                std:: cerr << "SDL image could not initialize. Error: " << SDL_GetError() << std::endl;
+            }
+            else
+            {
+                //Get window surface
+                _screenSurface = SDL_GetWindowSurface(_window);
+            }
         }
     }
     return success;

@@ -17,11 +17,19 @@
 
 1. [Install SDL library](https://lazyfoo.net/tutorials/SDL/01_hello_SDL/index.php)
 2. On Linux command line, run these commands:
+
 `mkdir build && cd build`
+
 `cmake ..`
+
 `make`
+
 `./verlet_simulator`
 
+
+### Set up Extension Libraries 
+
+`apt-cache search libsdl2-image`
 
 ## Tutorials
 
