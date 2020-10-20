@@ -16,7 +16,7 @@ Controller::Controller()
 
 void Controller::HandleEvents(SDL_Event e, Renderer &renderer)
 {
-    std::cout << "polling event object" << std::endl;
+    // std::cout << "polling event object" << std::endl;
     
     while(SDL_PollEvent(&e) != 0)
     {
@@ -28,35 +28,50 @@ void Controller::HandleEvents(SDL_Event e, Renderer &renderer)
         {
             switch(e.key.keysym.sym)
             {
-                //Select surface based on input
-                case SDLK_UP:
-                renderer.SetCurrentSurface(keyPressSurfaces[KEY_PRESS_SURFACE_UP]);
-                break;
+        
+                // //Select surface based on input
+                // case SDLK_UP:
+                // renderer.SetCurrentSurface(keyPressSurfaces[KEY_PRESS_SURFACE_UP]);
+                // break;
 
-                case SDLK_DOWN:
-                renderer.SetCurrentSurface(keyPressSurfaces[KEY_PRESS_SURFACE_DOWN]);
-                break;
+                // case SDLK_DOWN:
+                // renderer.SetCurrentSurface(keyPressSurfaces[KEY_PRESS_SURFACE_DOWN]);
+                // break;
 
-                case SDLK_LEFT:
-                renderer.SetCurrentSurface(keyPressSurfaces[KEY_PRESS_SURFACE_LEFT]);
-                break;
+                // case SDLK_LEFT:
+                // renderer.SetCurrentSurface(keyPressSurfaces[KEY_PRESS_SURFACE_LEFT]);
+                // break;
 
-                case SDLK_RIGHT:
-                renderer.SetCurrentSurface(keyPressSurfaces[KEY_PRESS_SURFACE_RIGHT]);
-                break;
+                // case SDLK_RIGHT:
+                // renderer.SetCurrentSurface(keyPressSurfaces[KEY_PRESS_SURFACE_RIGHT]);
+                // break;
 
-                default:
-                renderer.SetCurrentSurface(keyPressSurfaces[KEY_PRESS_SURFACE_DEFAULT]);
-                break;
+                // default:
+                // renderer.SetCurrentSurface(keyPressSurfaces[KEY_PRESS_SURFACE_DEFAULT]);
+                // break;
+                
             }
         }
         else if (e.type == SDL_MOUSEBUTTONDOWN)
-        {
-            std::cout << "mouse pressed" << std::endl;
+        {   
+            if(e.button.button == SDL_BUTTON_LEFT)
+            {
+                std::cout << "mouse pressed" << std::endl;
+                //Draw dynamic shapes
+                int mouseX = e.button.x;
+                int mouseY = e.button.y;
+
+                std::cout << mouseX << " " << mouseY << "\n";
+                SDL_Rect rect = {mouseX, mouseY, 40, 40};
+                SDL_SetRenderDrawColor(renderer.getRenderer(), 0xFF, 0x00, 0x00, 0xFF);
+                SDL_RenderDrawRect( renderer.getRenderer(), &rect );
+            }
+            
+           
         }
     }
-    SDL_Rect stretchedRect = renderer.CreateStretchedRect();
-    renderer.DisplayFullSize(stretchedRect);  
+    // SDL_Rect stretchedRect = renderer.CreateStretchedRect();
+    // renderer.DisplayFullSize(stretchedRect);  
 }
 
 void Controller::toggleQuit(bool flag)

@@ -9,7 +9,15 @@ class Controller;
 
 Renderer::Renderer(const int screenWidth, const int screenHeight)
     : _screenWidth(screenWidth), 
-      _screenHeight(screenHeight){}
+      _screenHeight(screenHeight){
+          _image = LoadSurface("../img/dot.bmp");
+      }
+
+void Renderer::Draw()
+{
+    SDL_UpdateWindowSurface(_window);
+    SDL_BlitSurface(_image, NULL, _screenSurface, NULL);
+}
 
 SDL_Texture* Renderer::LoadTexture(const char* path)
 {   
@@ -49,14 +57,14 @@ SDL_Surface* Renderer::LoadSurface(const char* path)
     else
     {
         //Convert surface to screen format
-        optimizedSurface = SDL_ConvertSurface(loadedSurface, _screenSurface->format, 0);
-        if(optimizedSurface == NULL)
-        {
-            std::cerr << "Could not optimize image. Error: " << SDL_GetError() << std::endl;
-        }
-        SDL_FreeSurface(loadedSurface);
+        // optimizedSurface = SDL_ConvertSurface(loadedSurface, _screenSurface->format, 0);
+        // if(optimizedSurface == NULL)
+        // {
+        //     std::cerr << "Could not optimize image. Error: " << SDL_GetError() << std::endl;
+        // }
+        // SDL_FreeSurface(loadedSurface);
     }
-    return optimizedSurface;
+    return loadedSurface;
 }
 
 bool Renderer::LoadMedia(Controller &controller)
@@ -65,13 +73,12 @@ bool Renderer::LoadMedia(Controller &controller)
     bool success = true;
 
     //Load PNG texture
-
-    _texture = LoadTexture("../img/up.bmp");
-    if(_texture == NULL)
-    {
-        std::cerr << "Failed to load texture image. Error: " << SDL_GetError() << std::endl;
-        success = false;
-    }
+    // _texture = LoadTexture("../img/up.bmp");
+    // if(_texture == NULL)
+    // {
+    //     std::cerr << "Failed to load texture image. Error: " << SDL_GetError() << std::endl;
+    //     success = false;
+    // }
 
     //Load default surface
     controller.keyPressSurfaces[controller.KEY_PRESS_SURFACE_DEFAULT] = LoadSurface("../img/press.bmp");
@@ -130,6 +137,9 @@ void Renderer::RenderViewport(int x, int y, int width, int height)
     //Render texture to screen
     SDL_RenderCopy(_renderer, _texture, NULL, NULL);
 }
+
+//Generate dynamic shape
+
 
 //Generate static shapes
 void Renderer::RenderGeometry()

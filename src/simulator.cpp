@@ -31,28 +31,44 @@ void Simulator::Run(Renderer& renderer, Controller& controller)
             }
             else
             {
-                //Key press code
+
+                // SDL_RenderPresent(renderer.getRenderer()); 
+                //KEY PRESS CODE
                 // SDL_BlitSurface(renderer.getCurrentSurface(), NULL, renderer.getScreenSurface(), NULL);
                 // SDL_UpdateWindowSurface(renderer.getWindow());
 
-                //??
-                // SDL_SetRenderDrawColor(renderer.getRenderer(), 0xFF, 0xFF, 0xFF, 0xFF);
+                //VIEWPORT CODE
                 // SDL_RenderClear(renderer.getRenderer());
-                SDL_RenderCopy(renderer.getRenderer(), renderer.getTexture(), NULL, NULL); 
+                // SDL_RenderCopy(renderer.getRenderer(), renderer.getTexture(), NULL, NULL); 
 
                 // top left viewport
-                renderer.RenderViewport(0, 0, renderer.getScreenWidth() / 2, renderer.getScreenHeight() / 2);
-                //top right viewport
-                renderer.RenderViewport(renderer.getScreenWidth() / 2, 0, renderer.getScreenWidth() / 2, renderer.getScreenHeight() / 2);
-                //bottom viewport
-                renderer.RenderViewport(0, renderer.getScreenHeight() / 2, renderer.getScreenWidth(), renderer.getScreenHeight() / 2);    
+                // renderer.RenderViewport(0, 0, renderer.getScreenWidth() / 2, renderer.getScreenHeight() / 2);
+                // //top right viewport
+                // renderer.RenderViewport(renderer.getScreenWidth() / 2, 0, renderer.getScreenWidth() / 2, renderer.getScreenHeight() / 2);
+                // //bottom viewport
+                // renderer.RenderViewport(0, renderer.getScreenHeight() / 2, renderer.getScreenWidth(), renderer.getScreenHeight() / 2);    
 
+                //DRAW RECTANGLE
+                // SDL_SetRenderDrawColor(renderer.getRenderer(), 0xFF, 0xFF, 0xFF, 0xFF);
+                // SDL_RenderClear(renderer.getRenderer());
+
+                // SDL_Rect rect = {renderer.getScreenWidth()/ 4, renderer.getScreenHeight() / 4,
+                //                 40, 40};
+                // // SDL_SetRenderDrawColor(renderer.getRenderer(), 255, 255, 0, 255);
+                // SDL_SetRenderDrawColor(renderer.getRenderer(), 0xFF, 0x00, 0x00, 0xFF);
+                // SDL_RenderDrawRect( renderer.getRenderer(), &rect );
+                
                 //Update screen
-                SDL_RenderPresent(renderer.getRenderer());  
+                 
+
+                //Draw
+                
+
+                // renderer.RenderGeometry();
             }
 
             //Load geometric shapes
-            // renderer.RenderGeometry();
+            renderer.Draw();
             
             //Insert activity
         }   

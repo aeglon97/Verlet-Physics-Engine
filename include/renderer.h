@@ -9,6 +9,7 @@
 #include "controller.h"
 
 class Controller;
+class Texture;
 
 class Renderer
 {
@@ -16,6 +17,7 @@ public:
     Renderer(const int screenWidth, const int screenHeight);
     
     bool Init();
+    void Draw();
     bool LoadMedia(Controller &controller);
     void Close();
     SDL_Surface* LoadSurface(const char* path);
@@ -53,10 +55,15 @@ private:
     SDL_Surface* _screenSurface{NULL};
     SDL_Surface* _currentSurface{NULL};
     SDL_Surface* _stretchedSurface{NULL};
+    SDL_Event _windowEvent;
 
     //Built-in renderer
     SDL_Renderer* _renderer{NULL};
     SDL_Texture* _texture{NULL};
+    
+    //Moving dot
+    SDL_Surface *_image;
+    SDL_Rect _imagePos;
 
     const int _screenWidth{0};
     const int _screenHeight{0};
