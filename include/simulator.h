@@ -12,7 +12,8 @@ public:
     Simulator(const int screenWidth, const int screenHeight);
     ~Simulator();
 
-    void Update();
+    void Loop();
+    void Update(double deltaTime);
     void Draw();
     SDL_Surface *LoadSurface(const char* path);
 
@@ -27,6 +28,8 @@ private:
     //Sprite attributes
     SDL_Surface *_image;
     SDL_Rect _imagePos;
+    double _imageX;
+    double _imageY;
 };
 
 

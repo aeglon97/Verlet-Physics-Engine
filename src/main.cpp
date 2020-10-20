@@ -4,8 +4,7 @@
 int main()
 {
     Simulator simulator(1000, 680);
-    simulator.Update();
-    simulator.Draw();
+    simulator.Loop();
     return 0;
 }
 

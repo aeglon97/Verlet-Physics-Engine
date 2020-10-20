@@ -30,13 +30,19 @@ Simulator::Simulator(const int screenWidth, const int screenHeight) : _screenWid
     _imagePos.w = 22;
     _imagePos.h = 43;
 
+    _imageX = 0.0;
+    _imageY = 0.0;
+
 }
 
-void Simulator::Update()
-{   
+//Infinite while loop checking game state
+void Simulator::Loop()
+{
     bool running = true;
     while(running)
     {
+
+        //Handle events
         while(SDL_PollEvent(&_windowEvent) != 0)
         {
             //Handle user input
@@ -47,22 +53,36 @@ void Simulator::Update()
                 break;
             }
         }
+        
+        //Animate sprites
+        this->Update(1.0/60.0);
         this->Draw();
     }
 }
 
+//Account for frame rate
+void Simulator::Update(double deltaTime)
+{   
+    _imageX = _imageX + (5 * deltaTime);
+    _imagePos.x = _imageX;
+}
+
+//Refresh current frame
 void Simulator::Draw()
 {
     SDL_UpdateWindowSurface(_window);
+    SDL_FillRect(_windowSurface, NULL, SDL_MapRGB(_windowSurface->format, 0, 0, 0));
     SDL_BlitSurface(_image, NULL, _windowSurface, &_imagePos);
 }
 
+//Destructor
 Simulator::~Simulator()
 {
     SDL_FreeSurface(_windowSurface);
     SDL_DestroyWindow(_window);
 }
 
+//Load from file
 SDL_Surface* Simulator::LoadSurface(const char* path)
 {
     SDL_Surface *imageSurface = SDL_LoadBMP(path);
