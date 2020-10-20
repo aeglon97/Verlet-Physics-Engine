@@ -40,9 +40,13 @@ public:
         _renderer = SDL_CreateRenderer(_window, i, SDL_RENDERER_ACCELERATED);
     }
 
+    void RenderGeometry(); 
+
     SDL_Renderer* getRenderer() { return _renderer; }
 
     SDL_Texture* getTexture() { return _texture; }
+
+    void RenderViewport(int x, int y, int width, int height);
 
 private:
     SDL_Window* _window{NULL};

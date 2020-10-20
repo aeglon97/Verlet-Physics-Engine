@@ -30,19 +30,19 @@ void Controller::HandleEvents(SDL_Event e, Renderer &renderer)
             {
                 //Select surface based on input
                 case SDLK_UP:
-                // renderer.SetCurrentSurface(keyPressSurfaces[KEY_PRESS_SURFACE_UP]);
+                renderer.SetCurrentSurface(keyPressSurfaces[KEY_PRESS_SURFACE_UP]);
                 break;
 
                 case SDLK_DOWN:
-                // renderer.SetCurrentSurface(keyPressSurfaces[KEY_PRESS_SURFACE_DOWN]);
+                renderer.SetCurrentSurface(keyPressSurfaces[KEY_PRESS_SURFACE_DOWN]);
                 break;
 
                 case SDLK_LEFT:
-                // renderer.SetCurrentSurface(keyPressSurfaces[KEY_PRESS_SURFACE_LEFT]);
+                renderer.SetCurrentSurface(keyPressSurfaces[KEY_PRESS_SURFACE_LEFT]);
                 break;
 
                 case SDLK_RIGHT:
-                // renderer.SetCurrentSurface(keyPressSurfaces[KEY_PRESS_SURFACE_RIGHT]);
+                renderer.SetCurrentSurface(keyPressSurfaces[KEY_PRESS_SURFACE_RIGHT]);
                 break;
 
                 default:
@@ -55,9 +55,8 @@ void Controller::HandleEvents(SDL_Event e, Renderer &renderer)
             std::cout << "mouse pressed" << std::endl;
         }
     }
-
     SDL_Rect stretchedRect = renderer.CreateStretchedRect();
-    renderer.DisplayFullSize(stretchedRect);
+    renderer.DisplayFullSize(stretchedRect);  
 }
 
 void Controller::toggleQuit(bool flag)
