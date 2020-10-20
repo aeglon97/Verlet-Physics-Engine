@@ -1,18 +1,38 @@
-#ifndef GAME_H
-#define GAME_H
+#ifndef SIMULATOR_H
+#define SIMULATOR_H
+
+#pragma once
 
 #include <SDL2/SDL.h>
-#include <stdio.h>
 #include <iostream>
-
-#include "renderer.h"
 
 class Simulator
 {
 public:
-    void Run(Renderer& renderer, Controller& controller);
+    Simulator(const int screenWidth, const int screenHeight);
+    ~Simulator();
+
+    void Update();
+    void Draw();
+    SDL_Surface *LoadSurface(const char* path);
 
 private:
+    //Window attributes
+    const int _screenWidth;
+    const int _screenHeight;
+    SDL_Window *_window;
+    SDL_Surface *_windowSurface;
+    SDL_Event _windowEvent;
+
+    //Sprite attributes
+    SDL_Surface *_image;
+    SDL_Rect _imagePos;
 };
+
+
+
+
+
+
 
 #endif

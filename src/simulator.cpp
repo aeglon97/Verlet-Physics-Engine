@@ -1,78 +1,70 @@
-#include <SDL2/SDL.h>
-#include <stdio.h>
-#include <iostream>
-
 #include "simulator.h"
 
-void Simulator::Run(Renderer& renderer, Controller& controller)
+Simulator::Simulator(const int screenWidth, const int screenHeight) : _screenWidth(screenWidth), _screenHeight(screenHeight)
 {
-    if (!renderer.Init())
+    //Initialize window
+    _window = SDL_CreateWindow("Verlet Physics Engine",
+                                SDL_WINDOWPOS_CENTERED,
+                                SDL_WINDOWPOS_CENTERED,
+                                _screenWidth, _screenHeight, 0);
+
+    if(_window == NULL)
     {
-        std::cerr << "SDL failed to initialize." << std::endl;
+        std::cerr << "Failed to create window. Error: " << SDL_GetError() << std::endl;
+        return;
     }
-    else
+
+    _windowSurface = SDL_GetWindowSurface(_window);
+
+    if (_windowSurface == NULL)
     {
-        
-        SDL_Event e;        
-
-        //Enable key press mode
-        // SDL_Surface* keyPressDefaultSurface = controller.keyPressSurfaces[controller.KEY_PRESS_SURFACE_DEFAULT];
-        // renderer.SetCurrentSurface(keyPressDefaultSurface);
-
-        while (!controller.hasQuit())
-        {
-            //Handle events
-            controller.HandleEvents(e, renderer);
-
-            //Handle media
-            if(!renderer.LoadMedia(controller))
-            {
-                std::cerr << "Failed to load media." << std::endl;
-            }
-            else
-            {
-
-                // SDL_RenderPresent(renderer.getRenderer()); 
-                //KEY PRESS CODE
-                // SDL_BlitSurface(renderer.getCurrentSurface(), NULL, renderer.getScreenSurface(), NULL);
-                // SDL_UpdateWindowSurface(renderer.getWindow());
-
-                //VIEWPORT CODE
-                // SDL_RenderClear(renderer.getRenderer());
-                // SDL_RenderCopy(renderer.getRenderer(), renderer.getTexture(), NULL, NULL); 
-
-                // top left viewport
-                // renderer.RenderViewport(0, 0, renderer.getScreenWidth() / 2, renderer.getScreenHeight() / 2);
-                // //top right viewport
-                // renderer.RenderViewport(renderer.getScreenWidth() / 2, 0, renderer.getScreenWidth() / 2, renderer.getScreenHeight() / 2);
-                // //bottom viewport
-                // renderer.RenderViewport(0, renderer.getScreenHeight() / 2, renderer.getScreenWidth(), renderer.getScreenHeight() / 2);    
-
-                //DRAW RECTANGLE
-                // SDL_SetRenderDrawColor(renderer.getRenderer(), 0xFF, 0xFF, 0xFF, 0xFF);
-                // SDL_RenderClear(renderer.getRenderer());
-
-                // SDL_Rect rect = {renderer.getScreenWidth()/ 4, renderer.getScreenHeight() / 4,
-                //                 40, 40};
-                // // SDL_SetRenderDrawColor(renderer.getRenderer(), 255, 255, 0, 255);
-                // SDL_SetRenderDrawColor(renderer.getRenderer(), 0xFF, 0x00, 0x00, 0xFF);
-                // SDL_RenderDrawRect( renderer.getRenderer(), &rect );
-                
-                //Update screen
-                 
-
-                //Draw
-                
-
-                // renderer.RenderGeometry();
-            }
-
-            //Load geometric shapes
-            renderer.Draw();
-            
-            //Insert activity
-        }   
+        std::cerr << "Failed to retrieve window surface. Error: " << SDL_GetError() << std::endl;
+        return;
     }
-    renderer.Close();
+
+    //ASSIGN SPRITE
+    _image = LoadSurface("../img/dot.bmp");
+    //Sprite coordinates
+    _imagePos.x = 0;
+    _imagePos.y = 0;
+    _imagePos.w = 22;
+    _imagePos.h = 43;
+
 }
-    
+
+void Simulator::Update()
+{   
+    bool running = true;
+    while(running)
+    {
+        while(SDL_PollEvent(&_windowEvent) != 0)
+        {
+            //Handle user input
+            switch(_windowEvent.type)
+            {
+                case SDL_QUIT:
+                running = false;
+                break;
+            }
+        }
+        this->Draw();
+    }
+}
+
+void Simulator::Draw()
+{
+    SDL_UpdateWindowSurface(_window);
+    SDL_BlitSurface(_image, NULL, _windowSurface, &_imagePos);
+}
+
+Simulator::~Simulator()
+{
+    SDL_FreeSurface(_windowSurface);
+    SDL_DestroyWindow(_window);
+}
+
+SDL_Surface* Simulator::LoadSurface(const char* path)
+{
+    SDL_Surface *imageSurface = SDL_LoadBMP(path);
+    return imageSurface == NULL ? 0 : imageSurface;
+}
