@@ -5,11 +5,15 @@
 
 #include <SDL2/SDL.h>
 #include <iostream>
+#include "dot.h"
+
+class Dot;
 
 class Simulator
 {
 public:
     Simulator(const int screenWidth, const int screenHeight);
+    bool SetupWindow();
     ~Simulator();
 
     void Loop();
@@ -25,11 +29,7 @@ private:
     SDL_Surface *_windowSurface;
     SDL_Event _windowEvent;
 
-    //Sprite attributes
-    SDL_Surface *_image;
-    SDL_Rect _imagePos;
-    double _imageX;
-    double _imageY;
+    Dot _dot;
 };
 
 
