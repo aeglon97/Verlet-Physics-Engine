@@ -3,7 +3,7 @@
 Dot::Dot()
 {
     //Load image
-    if (!LoadImage())
+    if (!LoadImage("../img/dot.bmp"))
     {
         std::cerr << "Failed to render dot.bmp in constructor. Error: " << SDL_GetError() << std::endl;
         return;
@@ -11,40 +11,80 @@ Dot::Dot()
 }
 
 //Manually set position of Dot
-void Dot::SetPosition(SDL_Window* window, std::mt19937 gen, std::uniform_int_distribution<> disWidth, std::uniform_int_distribution<> disHeight)
+void Dot::SetPosition(SDL_Window* window, std::mt19937 gen, 
+                        std::uniform_int_distribution<> disWidth,
+                        std::uniform_int_distribution<> disHeight)
 {
-    //Coordinates : randomly generate on screen
-    _imagePos.x = 0;
-    _imagePos.y = 0;
+    //Randomly generate starting coordinates
+    _imagePos.x = disHeight(gen);
+    _imagePos.y = disHeight(gen);
     _imagePos.w = 100;
     _imagePos.h = 100;
 
-    _imageX = disWidth(gen);
-    _imageY = disHeight(gen);
+    _imageX = _imagePos.x;
+    _imageY = _imagePos.y;
 }
 
 
 //Initialize Dot position and image
-bool Dot::LoadImage()
+bool Dot::LoadImage(const char* path)
 {
     bool success = true;
-    _image = SDL_LoadBMP("../img/dot.bmp");
-    if (_image == nullptr)
+    SDL_Surface *optimizedSurface = nullptr;
+
+    //Initialize image loaders
+    int flags = IMG_INIT_JPG | IMG_INIT_PNG;
+    int initiatedFlags = IMG_Init(flags);
+
+    if((initiatedFlags & flags) != flags)
     {
-        std::cerr << "Failed to render dot.bmp. Error: " << SDL_GetError() << std::endl;
+        std::cerr << "Failed to properly initialize image loaders. Error: " << SDL_GetError() << std::endl;
         return !success;
     }
+
+    //Begin loading image
+    SDL_Surface *imageSurface = IMG_Load(path);
+    
+    if (imageSurface == nullptr)
+    {
+        std::cerr << "Failed to load dot.bmp. Error: " << SDL_GetError() << std::endl;
+        return !success;
+    }
+
+    optimizedSurface = SDL_ConvertSurface(imageSurface, imageSurface->format, 0);
+
+    if (optimizedSurface == nullptr)
+    {
+         std::cerr << "Failed to optimize dot.bmp. Error: " << SDL_GetError() << std::endl;
+        return !success;
+    }
+
+    _image = optimizedSurface;
+    SDL_FreeSurface(imageSurface);
     return success;
 }
 
+//Handle motion logic and states
 void Dot::Update(double deltaTime)
 {
     _imageX = _imageX + (5 * deltaTime);
     _imagePos.x = _imageX;
+
+    _imageY = _imageY + (5 * deltaTime);
+    _imagePos.y = _imageY;
 }
 
+//Render directly to window surface
 void Dot::Draw(SDL_Surface* windowSurface)
 {   
     //Connect image to image position
     SDL_BlitSurface(_image, nullptr, windowSurface, &_imagePos);
+}
+
+void Dot::HandleEvents(SDL_Event const &e)
+{
+    switch(e.type)
+    {
+        //Get dragged when held down by left mouse click
+    }
 }

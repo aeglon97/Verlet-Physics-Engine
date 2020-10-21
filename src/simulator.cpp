@@ -15,8 +15,8 @@ Simulator::Simulator(const int screenWidth, const int screenHeight)
     //Initialize sprites
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::uniform_int_distribution<> disWidth(1, SDL_GetWindowSurface(_window)->w);
-    std::uniform_int_distribution<> disHeight(1, SDL_GetWindowSurface(_window)->h);
+    std::uniform_int_distribution<> disWidth(0, _screenWidth);
+    std::uniform_int_distribution<> disHeight(0, _screenHeight);
     _dot.SetPosition(_window, gen, disWidth, disHeight);
 }
 
@@ -61,6 +61,8 @@ void Simulator::Loop()
                 running = false;
                 break;
             }
+
+            //Clear all current sprites, render 10-15 new objects with spacebar
         }
         
         //Account for frame rate
@@ -78,7 +80,7 @@ void Simulator::Update(double deltaTime)
 //Refresh current frame
 void Simulator::Draw()
 {
-    SDL_FillRect(_windowSurface, nullptr, SDL_MapRGB(_windowSurface->format, 0, 0, 0));
+    SDL_FillRect(_windowSurface, nullptr, SDL_MapRGB(_windowSurface->format, 255, 255, 255));
     _dot.Draw(_windowSurface);
     SDL_UpdateWindowSurface(_window);
 }
