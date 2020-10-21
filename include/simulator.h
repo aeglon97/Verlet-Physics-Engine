@@ -13,7 +13,7 @@ class Simulator
 {
 public:
     Simulator(const int screenWidth, const int screenHeight);
-    bool SetupWindow();
+    void SetupWindow();
     ~Simulator();
 
     void Loop();
@@ -21,17 +21,18 @@ public:
     void Draw();
     SDL_Surface *LoadSurface(const char* path);
 
+    //Pass to initializer list
+    SDL_Window* InitializeWindow();
+    SDL_Renderer* InitializeRenderer();
+
 private:
     //Window attributes
     const int _screenWidth;
     const int _screenHeight;
-    SDL_Window *_window = SDL_CreateWindow("Verlet Physics Engine",
-                                SDL_WINDOWPOS_CENTERED,
-                                SDL_WINDOWPOS_CENTERED,
-                                _screenWidth, _screenHeight, 0);
+    SDL_Window *_window;
     SDL_Surface *_windowSurface;
     SDL_Event _windowEvent;
-    SDL_Renderer* _renderer = SDL_CreateRenderer(_window,-1, SDL_RENDERER_ACCELERATED);
+    SDL_Renderer* _renderer;
 
     Dot _dot = Dot(_window, _renderer);
 };

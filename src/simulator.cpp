@@ -1,16 +1,18 @@
 #include "simulator.h"
 #include <random>
 
+
+
 Simulator::Simulator(const int screenWidth, const int screenHeight) 
-    : _screenWidth(screenWidth), 
-     _screenHeight(screenHeight)
+    : _screenWidth(screenWidth), _screenHeight(screenHeight),
+     _window(InitializeWindow()), _renderer(InitializeRenderer())
 {
     //Initialize window
-    if (!SetupWindow())
-    {
-        std::cerr << "Failed to set up window. Error: " << SDL_GetError() << std::endl;
-        return;
-    }
+    // if (!SetupWindow())
+    // {
+    //     std::cerr << "Failed to set up window. Error: " << SDL_GetError() << std::endl;
+    //     return;
+    // }
 
     //Initialize sprites
     std::random_device rd;
@@ -20,30 +22,38 @@ Simulator::Simulator(const int screenWidth, const int screenHeight)
     _dot.SetPosition(_window, gen, disWidth, disHeight);
 }
 
+//Create window to pass to initializer list
+SDL_Window* Simulator::InitializeWindow()
+{
+    SDL_Window* window = SDL_CreateWindow("Verlet Physics Engine",
+                                SDL_WINDOWPOS_CENTERED,
+                                SDL_WINDOWPOS_CENTERED,
+                                _screenWidth, _screenHeight, 0);
+
+    return window;
+}
+
+//Create renderer to pass to initializer list
+SDL_Renderer* Simulator::InitializeRenderer()
+{
+    SDL_Renderer* renderer = SDL_CreateRenderer(_window,-1, SDL_RENDERER_ACCELERATED);
+
+    return renderer;
+}
+
 //Initialize window
-bool Simulator::SetupWindow()
+void Simulator::SetupWindow()
 {
     bool success = true;
-    
-    //Create window
-    // _window = SDL_CreateWindow("Verlet Physics Engine",
-    //                             SDL_WINDOWPOS_CENTERED,
-    //                             SDL_WINDOWPOS_CENTERED,
-    //                             _screenWidth, _screenHeight, 0);
 
-    if(_window == nullptr)
-    {
-        std::cerr << "Failed to create window. Error: " << SDL_GetError() << std::endl;
-        return !success;
-    }
+
     //UNCOMMENT BELOW IF NOT DEALING WITH TEXTURE CODE
-    _windowSurface = SDL_GetWindowSurface(_window);
-    if (_windowSurface == nullptr)
-    {
-        std::cerr << "Failed to retrieve window surface. Error: " << SDL_GetError() << std::endl;
-        return !success;
-    }
-    return success;
+    // _windowSurface = SDL_GetWindowSurface(_window);
+    // if (_windowSurface == nullptr)
+    // {
+    //     std::cerr << "Failed to retrieve window surface. Error: " << SDL_GetError() << std::endl;
+    //     return !success;
+    // }
 }
 
 //Infinite while loop checking game state
