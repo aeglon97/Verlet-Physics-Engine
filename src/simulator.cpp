@@ -15,8 +15,8 @@ Simulator::Simulator(const int screenWidth, const int screenHeight)
     //Initialize sprites
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::uniform_int_distribution<> disWidth(0, _screenWidth);
-    std::uniform_int_distribution<> disHeight(0, _screenHeight);
+    std::uniform_int_distribution<> disWidth(1, _screenWidth);
+    std::uniform_int_distribution<> disHeight(1, _screenHeight);
     _dot.SetPosition(_window, gen, disWidth, disHeight);
 }
 
@@ -24,19 +24,20 @@ Simulator::Simulator(const int screenWidth, const int screenHeight)
 bool Simulator::SetupWindow()
 {
     bool success = true;
-    _window = SDL_CreateWindow("Verlet Physics Engine",
-                                SDL_WINDOWPOS_CENTERED,
-                                SDL_WINDOWPOS_CENTERED,
-                                _screenWidth, _screenHeight, 0);
+    
+    //Create window
+    // _window = SDL_CreateWindow("Verlet Physics Engine",
+    //                             SDL_WINDOWPOS_CENTERED,
+    //                             SDL_WINDOWPOS_CENTERED,
+    //                             _screenWidth, _screenHeight, 0);
 
     if(_window == nullptr)
     {
         std::cerr << "Failed to create window. Error: " << SDL_GetError() << std::endl;
         return !success;
     }
-
+    //UNCOMMENT BELOW IF NOT DEALING WITH TEXTURE CODE
     _windowSurface = SDL_GetWindowSurface(_window);
-
     if (_windowSurface == nullptr)
     {
         std::cerr << "Failed to retrieve window surface. Error: " << SDL_GetError() << std::endl;
@@ -71,7 +72,7 @@ void Simulator::Loop()
     }
 }
 
-//Animate sprites
+//Motion/logic handler
 void Simulator::Update(double deltaTime)
 {   
     _dot.Update(deltaTime);
@@ -80,9 +81,17 @@ void Simulator::Update(double deltaTime)
 //Refresh current frame
 void Simulator::Draw()
 {
-    SDL_FillRect(_windowSurface, nullptr, SDL_MapRGB(_windowSurface->format, 255, 255, 255));
-    _dot.Draw(_windowSurface);
-    SDL_UpdateWindowSurface(_window);
+    //Clear screen
+    SDL_SetRenderDrawColor(_renderer, 255, 255, 255, 255);
+    SDL_RenderClear(_renderer);
+
+    //Render texture to screen
+    // SDL_FillRect(_windowSurface, nullptr, SDL_MapRGB(_windowSurface->format, 255, 255, 255));
+    _dot.Draw(_renderer);
+    // SDL_UpdateWindowSurface(_window);
+
+    //Update screen
+    SDL_RenderPresent(_renderer);
 }
 
 //Destructor
