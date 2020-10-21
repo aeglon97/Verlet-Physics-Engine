@@ -12,14 +12,13 @@ class Dot
 public:
     Dot(SDL_Window* window, SDL_Renderer* renderer);
     ~Dot() = default;
-
-    bool LoadImage(const char* path);
-    bool LoadTexture(const char* path, SDL_Renderer* renderer);
+    
+    bool LoadTexture(const char* path);
     void SetPosition(SDL_Window* window, std::mt19937 gen, 
                     std::uniform_int_distribution<> disWidth, 
                     std::uniform_int_distribution<> disHeight);
     void Update(double deltaTime);
-    void Draw(SDL_Renderer* renderer);
+    void Draw();
     void HandleEvents(SDL_Event const &e);
 
     //getters/setters
@@ -35,6 +34,7 @@ private:
     double _imageX;
     double _imageY;
     SDL_Window* _window;
+    SDL_Renderer* _renderer;
 
     //Current displayed texture
     SDL_Texture *_texture;

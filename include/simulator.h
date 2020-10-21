@@ -19,7 +19,6 @@ public:
     void Loop();
     void Update(double deltaTime);
     void Draw();
-    SDL_Surface *LoadSurface(const char* path);
 
     //Pass to initializer list
     SDL_Window* InitializeWindow();
@@ -34,7 +33,7 @@ private:
     SDL_Event _windowEvent;
     SDL_Renderer* _renderer;
 
-    Dot _dot = Dot(_window, _renderer);
+    Dot _dot;
 };
 
 

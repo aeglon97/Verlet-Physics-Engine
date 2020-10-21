@@ -2,19 +2,15 @@
 #include <random>
 
 
-
+//Initialize window and renderer in initializer list
 Simulator::Simulator(const int screenWidth, const int screenHeight) 
-    : _screenWidth(screenWidth), _screenHeight(screenHeight),
-     _window(InitializeWindow()), _renderer(InitializeRenderer())
+    :   _screenWidth(screenWidth),
+        _screenHeight(screenHeight),
+        _window(InitializeWindow()),
+        _renderer(InitializeRenderer()),
+        _dot{_window, _renderer}
 {
-    //Initialize window
-    // if (!SetupWindow())
-    // {
-    //     std::cerr << "Failed to set up window. Error: " << SDL_GetError() << std::endl;
-    //     return;
-    // }
-
-    //Initialize sprites
+    //Initialize sprite positions
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_int_distribution<> disWidth(1, _screenWidth);
@@ -39,21 +35,6 @@ SDL_Renderer* Simulator::InitializeRenderer()
     SDL_Renderer* renderer = SDL_CreateRenderer(_window,-1, SDL_RENDERER_ACCELERATED);
 
     return renderer;
-}
-
-//Initialize window
-void Simulator::SetupWindow()
-{
-    bool success = true;
-
-
-    //UNCOMMENT BELOW IF NOT DEALING WITH TEXTURE CODE
-    // _windowSurface = SDL_GetWindowSurface(_window);
-    // if (_windowSurface == nullptr)
-    // {
-    //     std::cerr << "Failed to retrieve window surface. Error: " << SDL_GetError() << std::endl;
-    //     return !success;
-    // }
 }
 
 //Infinite while loop checking game state
@@ -95,10 +76,7 @@ void Simulator::Draw()
     SDL_SetRenderDrawColor(_renderer, 255, 255, 255, 255);
     SDL_RenderClear(_renderer);
 
-    //Render texture to screen
-    // SDL_FillRect(_windowSurface, nullptr, SDL_MapRGB(_windowSurface->format, 255, 255, 255));
-    _dot.Draw(_renderer);
-    // SDL_UpdateWindowSurface(_window);
+    _dot.Draw();
 
     //Update screen
     SDL_RenderPresent(_renderer);
@@ -107,13 +85,13 @@ void Simulator::Draw()
 //Destructor
 Simulator::~Simulator()
 {
-    SDL_FreeSurface(_windowSurface);
     SDL_DestroyWindow(_window);
 }
 
-//Load from file
-SDL_Surface* Simulator::LoadSurface(const char* path)
+//Helper function : generate random number distribution
+void SetDotPosition()
 {
-    SDL_Surface *imageSurface = SDL_LoadBMP(path);
-    return imageSurface == nullptr ? 0 : imageSurface;
+    
 }
+
+

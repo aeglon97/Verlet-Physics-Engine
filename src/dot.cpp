@@ -1,12 +1,9 @@
 #include "dot.h"
 
-Dot::Dot(SDL_Window* window, SDL_Renderer* renderer) : _window(window)
+Dot::Dot(SDL_Window* window, SDL_Renderer* renderer) : _window(window), _renderer(renderer)
 {
-    //Assign renderer
-
-
     //Load image
-    if (!LoadTexture("../img/dot.bmp", renderer))
+    if (!LoadTexture("../img/dot.bmp"))
     {
         std::cerr << "Failed to render dot.bmp in constructor. Error: " << SDL_GetError() << std::endl;
         return;
@@ -21,18 +18,16 @@ void Dot::SetPosition(SDL_Window* window, std::mt19937 gen,
     //Randomly generate starting coordinates
     _imagePos.x = disHeight(gen);
     _imagePos.y = disHeight(gen);
-    _imagePos.w = 100;
-    _imagePos.h = 100;
+    _imagePos.w = 40;
+    _imagePos.h = 40;
 
     _imageX = _imagePos.x;
     _imageY = _imagePos.y;
 }
 
-
-//Initialize texture
-bool Dot::LoadTexture(const char* path, SDL_Renderer* renderer)
+//Initialize dot texture
+bool Dot::LoadTexture(const char* path)
 {
-    //The final texture
     bool success = true;
 
     //Initialize image loaders
@@ -54,50 +49,12 @@ bool Dot::LoadTexture(const char* path, SDL_Renderer* renderer)
     }
 
     //Create texture from surface pixels
-    _texture = SDL_CreateTextureFromSurface(renderer, imageSurface);
+    _texture = SDL_CreateTextureFromSurface(_renderer, imageSurface);
     if (_texture == nullptr)
     {
         std::cerr << "Failed to load dot.bmp texture. Error: " << SDL_GetError() << std::endl;
         return !success;
     }
-    return success;
-}
-
-//Initialize Dot position and image
-bool Dot::LoadImage(const char* path)
-{
-    bool success = true;
-    SDL_Surface *optimizedSurface = nullptr;
-
-    //Initialize image loaders
-    int flags = IMG_INIT_JPG | IMG_INIT_PNG;
-    int initiatedFlags = IMG_Init(flags);
-
-    if((initiatedFlags & flags) != flags)
-    {
-        std::cerr << "Failed to properly initialize image loaders. Error: " << SDL_GetError() << std::endl;
-        return !success;
-    }
-
-    //Begin loading image
-    SDL_Surface *imageSurface = IMG_Load(path);
-    
-    if (imageSurface == nullptr)
-    {
-        std::cerr << "Failed to load dot.bmp. Error: " << SDL_GetError() << std::endl;
-        return !success;
-    }
-
-    optimizedSurface = SDL_ConvertSurface(imageSurface, imageSurface->format, 0);
-
-    if (optimizedSurface == nullptr)
-    {
-         std::cerr << "Failed to optimize dot.bmp. Error: " << SDL_GetError() << std::endl;
-        return !success;
-    }
-
-    _image = optimizedSurface;
-    SDL_FreeSurface(imageSurface);
     return success;
 }
 
@@ -112,13 +69,10 @@ void Dot::Update(double deltaTime)
 }
 
 //Render directly to window surface
-void Dot::Draw(SDL_Renderer* renderer)
+void Dot::Draw()
 {   
-    //Connect image to image position
-    // SDL_BlitSurface(_image, nullptr, windowSurface, &_imagePos);
-
     //Render texture to screen
-    SDL_RenderCopy(renderer, _texture, NULL, &_imagePos);
+    SDL_RenderCopy(_renderer, _texture, NULL, &_imagePos);
 }
 
 void Dot::HandleEvents(SDL_Event const &e)
@@ -128,14 +82,3 @@ void Dot::HandleEvents(SDL_Event const &e)
         //Get dragged when held down by left mouse click
     }
 }
-
-//Connect renderer to window
-// void Dot::setRenderer(SDL_Window* window)
-// {
-//     std::cout << "Setting renderer" << std::endl;
-//     _renderer = SDL_CreateRenderer(window,-1, SDL_RENDERER_ACCELERATED);
-//     if(_renderer == nullptr)
-//     {
-//         std::cerr << "Failed to create renderer. Error: " << SDL_GetError() << std::endl;
-//     }
-// }
