@@ -16,6 +16,7 @@ Dot::Dot(SDL_Window* window, SDL_Renderer* renderer) : _window(window), _rendere
     //Slow down velocity with each collision
     _bounce = 0.9;
     _gravity = 0.0025;
+    _friction = 0.999;
 }
 
 //Manually set position of Dot
@@ -129,15 +130,15 @@ void Dot::Update(double deltaTime)
 {
     
     //Velocity + timesteps
-    _velX = (_imageX - _oldX);
-    _velY = (_imageY - _oldY);  
+    _velX = (_imageX - _oldX) * _friction;;
+    _velY = (_imageY - _oldY) * _friction;;  
 
     ApplyConstraints();
 
     _oldX = _imageX;
     _oldY = _imageY;
 
-    _imageX = _imageX + _velX;
+    _imageX = _imageX + _velX;  
     _imageY = _imageY + _velY;
     _imageY += _gravity;
     

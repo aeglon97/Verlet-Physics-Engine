@@ -49,6 +49,7 @@ private:
     double _velY;
     double _bounce;
     double _gravity;
+    double _friction;
 
     //Current displayed texture
     SDL_Texture *_texture;
