@@ -16,7 +16,7 @@ void Dot::SetPosition(SDL_Window* window, std::mt19937 gen,
                         std::uniform_int_distribution<> disHeight)
 {
     //Randomly generate starting coordinates
-    _imagePos.x = disHeight(gen);
+    _imagePos.x = disWidth(gen);
     _imagePos.y = disHeight(gen);
     _imagePos.w = 40;
     _imagePos.h = 40;
@@ -24,6 +24,8 @@ void Dot::SetPosition(SDL_Window* window, std::mt19937 gen,
     _imageX = _imagePos.x;
     _imageY = _imagePos.y;
 }
+
+//Resize Dot width and height
 
 //Initialize dot texture
 bool Dot::LoadTexture(const char* path)
