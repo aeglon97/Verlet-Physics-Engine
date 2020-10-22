@@ -39,6 +39,9 @@ private:
     SDL_Rect _imagePos;
     double _imageX;
     double _imageY;
+    double _oldX;
+    double _oldY;
+
     double _radius;
     
     //Motion variables

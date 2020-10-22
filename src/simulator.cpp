@@ -68,8 +68,6 @@ void Simulator::Loop()
             }
 
             //Clear all current sprites, render 10-15 new objects with spacebar
-
-            //deallocate dots
         }
         
         //Account for frame rate
