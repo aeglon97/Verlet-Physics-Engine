@@ -9,7 +9,7 @@ Simulator::Simulator(const int screenWidth, const int screenHeight)
         _screenHeight(screenHeight),
         _window(InitializeWindow()),
         _renderer(InitializeRenderer()),
-        _dots(InitializeDots(10))
+        _dots(InitializeDots(15))
 {
     //Initialize sprite positions
     for (Dot* dot: _dots) 

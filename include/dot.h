@@ -27,13 +27,25 @@ public:
     double getY() { return _imageY; }
     void setRenderer(SDL_Window* window);
 
+    //Motion handlers
+    void ApplyConstraints();
+
 private:
+    SDL_Window* _window;
+    SDL_Renderer* _renderer;
+
+    //Dot properties
     SDL_Surface *_image;
     SDL_Rect _imagePos;
     double _imageX;
     double _imageY;
-    SDL_Window* _window;
-    SDL_Renderer* _renderer;
+    double _radius;
+    
+    //Motion variables
+    double _velX;
+    double _velY;
+    double _bounce;
+    double _gravity;
 
     //Current displayed texture
     SDL_Texture *_texture;

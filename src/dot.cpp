@@ -9,6 +9,17 @@ Dot::Dot(SDL_Window* window, SDL_Renderer* renderer) : _window(window), _rendere
         std::cerr << "Failed to render dot.bmp in constructor. Error: " << SDL_GetError() << std::endl;
         return;
     }
+
+    _radius = 20;
+
+    //Initialize motion variables
+    _velX = 5.0;
+    _velY = 5.0;
+
+    //Slow down velocity with each collision
+    _bounce = 0.5;
+    
+    _gravity = 0.5;
 }
 
 //Manually set position of Dot
@@ -20,8 +31,6 @@ void Dot::SetPosition(SDL_Window* window, const int xMax, const int yMax)
 
     _imagePos.x = _imageX;
     _imagePos.y = _imageY;
-    _imagePos.w = 40;
-    _imagePos.h = 40;
 }
 
 //Resize Dot width and height
@@ -59,16 +68,67 @@ bool Dot::LoadTexture(const char* path)
     return success;
 }
 
+//When dot is at edge of window
+void Dot::ApplyConstraints()
+{
+    double windowWidth = SDL_GetWindowSurface(_window)->w;
+    double windowHeight = SDL_GetWindowSurface(_window)->h;
+
+    //X on left side 
+    if(_imageX + _radius < 0) 
+    {
+        //If going left, go right
+        if (_velX < 0)
+        {
+            _velX = _velX * -1 * _bounce;
+        }
+    }
+
+    //X on right side
+    if(_imageX + _radius > windowWidth)
+    {
+        //If going right, go left
+        if (_velX > 0)
+        {
+            _velX = _velX * -1 * _bounce;
+        }
+    }
+
+    //Y at top
+    if(_imageY + _radius < 0)
+    {
+        //If going up, go down
+        if(_velY < 0)
+        {
+            _velY = _velY *- 1 * _bounce;
+        }
+    }
+
+    //Y at bottom
+     if(_imageY + _radius > windowHeight)
+    {
+
+        //If going down, go up
+        if(_velY > 0)
+        {
+            _velY = (_velY *- 1) * _bounce;
+        }
+    }
+}
+
 //Handle motion logic and states
 void Dot::Update(double deltaTime)
 {
-    _imageX = _imageX + (5 * deltaTime);
-    _imagePos.x = _imageX;
+    //Velocity + timesteps
+    _imageX = _imageX + (_velX * deltaTime);
+    _imageY = _imageY + (_velY * deltaTime);
+    // _imageY += _gravity;
 
-    _imageY = _imageY + (5 * deltaTime);
+    //Update positions
+    _imagePos.x = _imageX;
     _imagePos.y = _imageY;
     
-    // std::cout << "New x: " << _imageX << " New y: " << _imageY << std::endl;
+    ApplyConstraints();
 }
 
 
@@ -76,8 +136,9 @@ void Dot::Update(double deltaTime)
 void Dot::Draw()
 {   
     //Render texture to screen
-    SDL_Rect RenderQuad = {_imagePos.x, _imagePos.y, _imagePos.w, _imagePos.h};
+    SDL_Rect RenderQuad = {_imagePos.x, _imagePos.y, _radius * 2, _radius * 2};
     SDL_RenderCopy(_renderer, _texture, NULL, &RenderQuad);
+    std::cout << _imageY << std::endl;
 }
 
 void Dot::HandleEvents(SDL_Event const &e)
