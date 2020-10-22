@@ -1,5 +1,6 @@
 #include "simulator.h"
 #include <random>
+#include <memory>
 
 
 //Initialize window and renderer in initializer list
@@ -8,14 +9,25 @@ Simulator::Simulator(const int screenWidth, const int screenHeight)
         _screenHeight(screenHeight),
         _window(InitializeWindow()),
         _renderer(InitializeRenderer()),
-        _dot{_window, _renderer}
+        _dots(InitializeDots(10))
 {
     //Initialize sprite positions
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_int_distribution<> disWidth(1, _screenWidth);
-    std::uniform_int_distribution<> disHeight(1, _screenHeight);
-    _dot.SetPosition(_window, gen, disWidth, disHeight);
+    for (Dot* dot: _dots) 
+    {
+        dot->SetPosition(_window, _screenWidth, _screenHeight/4);
+    }
+}
+
+//Create vector of dots, passed to initializer list
+std::vector<Dot*> Simulator::InitializeDots(const int n)
+{
+    std::vector<Dot*> dots;
+    for (int i = 0; i < n; ++i)
+    {
+        dots.push_back(new Dot(_window, _renderer));
+    }
+
+    return dots;
 }
 
 //Create window to pass to initializer list
@@ -41,6 +53,7 @@ SDL_Renderer* Simulator::InitializeRenderer()
 void Simulator::Loop()
 {
     bool running = true;
+    
     while(running)
     {
         //Handle events
@@ -55,10 +68,13 @@ void Simulator::Loop()
             }
 
             //Clear all current sprites, render 10-15 new objects with spacebar
+
+            //deallocate dots
         }
         
         //Account for frame rate
         this->Update(1.0/60.0);
+
         this->Draw();
     }
 }
@@ -66,7 +82,9 @@ void Simulator::Loop()
 //Motion/logic handler
 void Simulator::Update(double deltaTime)
 {   
-    _dot.Update(deltaTime);
+    for (size_t i = 0; i < _dots.size(); ++i){
+        _dots[i]->Update(deltaTime);
+    }
 }
 
 //Refresh current frame
@@ -76,9 +94,13 @@ void Simulator::Draw()
     SDL_SetRenderDrawColor(_renderer, 255, 255, 255, 255);
     SDL_RenderClear(_renderer);
 
-    _dot.Draw();
+    //Draw dots
+    for (Dot* dot : _dots)
+    {
+        dot->Draw();   
+    }
 
-    //Update screen
+    //Render to screen
     SDL_RenderPresent(_renderer);
 }
 
@@ -86,12 +108,12 @@ void Simulator::Draw()
 Simulator::~Simulator()
 {
     SDL_DestroyWindow(_window);
-}
 
-//Helper function : generate random number distribution
-void SetDotPosition()
-{
-    
+    //Deallocate dots in vector
+    for(Dot* dot : _dots)
+    {
+        delete dot;
+    }
 }
 
 

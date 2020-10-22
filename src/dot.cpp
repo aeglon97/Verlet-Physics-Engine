@@ -2,8 +2,9 @@
 
 Dot::Dot(SDL_Window* window, SDL_Renderer* renderer) : _window(window), _renderer(renderer)
 {
+    srand((unsigned int)time(NULL));
     //Load image
-    if (!LoadTexture("../img/dot.bmp"))
+    if (!LoadTexture("../img/dot.png"))
     {
         std::cerr << "Failed to render dot.bmp in constructor. Error: " << SDL_GetError() << std::endl;
         return;
@@ -11,18 +12,16 @@ Dot::Dot(SDL_Window* window, SDL_Renderer* renderer) : _window(window), _rendere
 }
 
 //Manually set position of Dot
-void Dot::SetPosition(SDL_Window* window, std::mt19937 gen, 
-                        std::uniform_int_distribution<> disWidth,
-                        std::uniform_int_distribution<> disHeight)
+void Dot::SetPosition(SDL_Window* window, const int xMax, const int yMax)
 {
     //Randomly generate starting coordinates
-    _imagePos.x = disWidth(gen);
-    _imagePos.y = disHeight(gen);
+    _imageX = rand() % xMax;
+    _imageY = rand() % yMax;
+
+    _imagePos.x = _imageX;
+    _imagePos.y = _imageY;
     _imagePos.w = 40;
     _imagePos.h = 40;
-
-    _imageX = _imagePos.x;
-    _imageY = _imagePos.y;
 }
 
 //Resize Dot width and height
@@ -68,13 +67,17 @@ void Dot::Update(double deltaTime)
 
     _imageY = _imageY + (5 * deltaTime);
     _imagePos.y = _imageY;
+    
+    // std::cout << "New x: " << _imageX << " New y: " << _imageY << std::endl;
 }
+
 
 //Render directly to window surface
 void Dot::Draw()
 {   
     //Render texture to screen
-    SDL_RenderCopy(_renderer, _texture, NULL, &_imagePos);
+    SDL_Rect RenderQuad = {_imagePos.x, _imagePos.y, _imagePos.w, _imagePos.h};
+    SDL_RenderCopy(_renderer, _texture, NULL, &RenderQuad);
 }
 
 void Dot::HandleEvents(SDL_Event const &e)

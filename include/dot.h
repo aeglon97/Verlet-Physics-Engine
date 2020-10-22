@@ -14,9 +14,7 @@ public:
     ~Dot() = default;
     
     bool LoadTexture(const char* path);
-    void SetPosition(SDL_Window* window, std::mt19937 gen, 
-                    std::uniform_int_distribution<> disWidth, 
-                    std::uniform_int_distribution<> disHeight);
+    void SetPosition(SDL_Window* window, const int xMax, const int yMax);
     void Update(double deltaTime);
     void Draw();
     void HandleEvents(SDL_Event const &e);
@@ -25,7 +23,8 @@ public:
     // SDL_Renderer* getRenderer() { return _renderer; }
     SDL_Surface* getImage() { return _image; }
     SDL_Texture* getTexture() { return _texture; }
-
+    double getX() { return _imageX; }
+    double getY() { return _imageY; }
     void setRenderer(SDL_Window* window);
 
 private:

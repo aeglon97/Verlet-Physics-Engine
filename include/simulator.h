@@ -23,6 +23,7 @@ public:
     //Pass to initializer list
     SDL_Window* InitializeWindow();
     SDL_Renderer* InitializeRenderer();
+    std::vector<Dot*> InitializeDots(const int n);
 
 private:
     //Window attributes
@@ -33,7 +34,8 @@ private:
     SDL_Event _windowEvent;
     SDL_Renderer* _renderer;
 
-    Dot _dot;
+    //Render dots
+    std::vector<Dot*> _dots;
 };
 
 
