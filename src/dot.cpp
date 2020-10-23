@@ -17,25 +17,27 @@ Dot::Dot(SDL_Window* window, SDL_Renderer* renderer) : _window(window), _rendere
     _bounce = 0.9;
     _gravity = 0.0025;
     _friction = 0.999;
+
+    // _bounce = 1.0;
+    // _gravity = 0;
+    // _friction = 1;
 }
 
 //Manually set position of Dot
 void Dot::SetPosition(SDL_Window* window, const int xMax, const int yMax)
 {
     //Randomly generate starting coordinates
-    _imageX = rand() % xMax;
-    _imageY = rand() % yMax;
 
-    _oldX = _imageX - 0.25;
-    _oldY = _imageY - 0.25;
+    _imageX = (rand() % xMax) - _radius;
+    _imageY = (rand() % yMax) - _radius;
 
-    _imagePos.x = _imageX;
-    _imagePos.y = _imageY;
+    _oldX = _imageX + 0.25;
+    _oldY = _imageY + 0.25;
 
-    std::cout << "vX: " << _imageX - _oldX << std::endl;
-    std::cout << "vY: " << _imageY - _oldY << std::endl;
-    std::cout << "-----------------" << std::endl;
-    
+    _imagePos.x = _imageX + _radius;
+    _imagePos.y = _imageY + _radius;
+    _imagePos.w = _radius * 2;
+    _imagePos.h = _radius * 2;
 }
 
 //Resize Dot width and height
@@ -80,9 +82,9 @@ void Dot::ApplyConstraints()
     double windowHeight = SDL_GetWindowSurface(_window)->h;
 
     //X on left side 
-    if(_imageX + _radius <= 0) 
+    if(_imageX < 0) 
     {
-        // _imageX = 0;
+        _imageX = 0;
         //If going left, go right
         if (_velX < 0)
         {
@@ -103,9 +105,9 @@ void Dot::ApplyConstraints()
     }
 
     //Y at top
-    if(_imageY + _radius < 0)
+    if(_imageY < 0)
     {
-        // _imageY = 0;
+        _imageY = 0;
         //If going up, go down
         if(_velY < 0)
         {
@@ -129,33 +131,31 @@ void Dot::ApplyConstraints()
 void Dot::Update(double deltaTime)
 {
     
-    //Velocity + timesteps
-    _velX = (_imageX - _oldX) * _friction;;
-    _velY = (_imageY - _oldY) * _friction;;  
+    //Setup velocity + timesteps
+    _velX = (_imageX - _oldX) * _friction;
+    _velY = (_imageY - _oldY) * _friction;  
 
     ApplyConstraints();
 
     _oldX = _imageX;
     _oldY = _imageY;
 
+    //Move dot
     _imageX = _imageX + _velX;  
     _imageY = _imageY + _velY;
     _imageY += _gravity;
     
     //Update window coordinates
     _imagePos.x = _imageX;
-    _imagePos.y = _imageY;
-    
+    _imagePos.y = _imageY;    
 }
 
 
-//Render directly to window surface
+//Render texture to screen
 void Dot::Draw()
 {   
-    //Render texture to screen
-    SDL_Rect RenderQuad = {_imagePos.x, _imagePos.y, _radius * 2, _radius * 2};
-    SDL_RenderCopy(_renderer, _texture, NULL, &RenderQuad);
-    // std::cout << _imageY << std::endl;
+    // SDL_Rect RenderQuad = {_imagePos.x, _imagePos.y, _radius * 2, _radius * 2};
+    SDL_RenderCopy(_renderer, _texture, NULL, &_imagePos);
 }
 
 void Dot::HandleEvents(SDL_Event const &e)

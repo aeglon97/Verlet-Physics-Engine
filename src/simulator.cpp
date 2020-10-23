@@ -1,7 +1,7 @@
 #include "simulator.h"
+#include "stick.h"
 #include <random>
 #include <memory>
-
 
 //Initialize window and renderer in initializer list
 Simulator::Simulator(const int screenWidth, const int screenHeight) 
@@ -9,13 +9,15 @@ Simulator::Simulator(const int screenWidth, const int screenHeight)
         _screenHeight(screenHeight),
         _window(InitializeWindow()),
         _renderer(InitializeRenderer()),
-        _dots(InitializeDots(15))
+        _dots(InitializeDots(2))
 {
     //Initialize sprite positions
     for (Dot* dot: _dots) 
     {
         dot->SetPosition(_window, _screenWidth, _screenHeight/4);
     }
+
+    _sticks.push_back(new Stick(_dots[0], _dots[1], _window, _renderer));
 }
 
 //Create vector of dots, passed to initializer list
@@ -53,7 +55,6 @@ SDL_Renderer* Simulator::InitializeRenderer()
 void Simulator::Loop()
 {
     bool running = true;
-    
     while(running)
     {
         //Handle events
@@ -83,6 +84,11 @@ void Simulator::Update(double deltaTime)
     for (size_t i = 0; i < _dots.size(); ++i){
         _dots[i]->Update(deltaTime);
     }
+
+    for (Stick *stick : _sticks)
+    {
+        // stick->Update();
+    }
 }
 
 //Refresh current frame
@@ -96,6 +102,12 @@ void Simulator::Draw()
     for (Dot* dot : _dots)
     {
         dot->Draw();   
+    }
+
+    //Draw sticks
+    for (Stick* stick : _sticks)
+    {
+        stick->Draw();
     }
 
     //Render to screen

@@ -6,8 +6,10 @@
 #include <SDL2/SDL.h>
 #include <iostream>
 #include "dot.h"
+#include "stick.h"
 
 class Dot;
+class Stick;
 
 class Simulator
 {
@@ -36,6 +38,7 @@ private:
 
     //Render dots
     std::vector<Dot*> _dots;
+    std::vector<Stick*> _sticks;
 };
 
 

@@ -25,10 +25,13 @@ public:
     SDL_Texture* getTexture() { return _texture; }
     double getX() { return _imageX; }
     double getY() { return _imageY; }
+    double getRadius() { return _radius; }
     void setRenderer(SDL_Window* window);
 
     //Motion handlers
     void ApplyConstraints();
+    void setX(double x) { _imageX = x; }
+    void setY(double y) { _imageY = y; }
 
 private:
     SDL_Window* _window;
@@ -54,7 +57,5 @@ private:
     //Current displayed texture
     SDL_Texture *_texture;
 };
-
-
 
 #endif
