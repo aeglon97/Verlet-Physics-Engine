@@ -14,22 +14,23 @@ Simulator::Simulator(const int screenWidth, const int screenHeight)
     srand((unsigned int)time(NULL));
 
     // Initialize sprite positions
-    for (Dot* dot: _dots) 
-    {
-        const int xMax = rand() % _screenWidth;
-        const int yMax = rand() % _screenHeight;
-        dot->SetPosition(xMax, yMax);
-    }
+    // for (Dot* dot: _dots) 
+    // {
+    //     const int xMax = rand() % _screenWidth;
+    //     const int yMax = rand() % _screenHeight;
+    //     dot->SetPosition(xMax, yMax);
+    // }
 
-    // _dots[0]->SetPosition(0, 0);
-    // _dots[1]->SetPosition(0, 50);
-    // _dots[2]->SetPosition(50, 0);
-    // _dots[3]->SetPosition(50, 50);
+    _dots[0]->SetPosition(100, 100);
+    _dots[1]->SetPosition(200, 100);
+    _dots[2]->SetPosition(200, 200);
+    _dots[3]->SetPosition(100, 200);
 
     _sticks.push_back(new Stick(_dots[0], _dots[1], _window, _renderer));
     _sticks.push_back(new Stick(_dots[1], _dots[2], _window, _renderer));
     _sticks.push_back(new Stick(_dots[2], _dots[3], _window, _renderer));
     _sticks.push_back(new Stick(_dots[0], _dots[3], _window, _renderer));
+    _sticks.push_back(new Stick(_dots[0], _dots[2], _window, _renderer));
 }
 
 //Create vector of dots, passed to initializer list
@@ -85,7 +86,6 @@ void Simulator::Loop()
         
         //Account for frame rate
         this->Update(1.0/60.0);
-
         this->Draw();
     }
 }
@@ -93,14 +93,26 @@ void Simulator::Loop()
 //Motion/logic handler
 void Simulator::Update(double deltaTime)
 {   
+    //Update points
     for (size_t i = 0; i < _dots.size(); ++i){
         _dots[i]->Update(deltaTime);
     }
 
-    for (Stick *stick : _sticks)
+    for(int i = 0; i < 3; ++i)
     {
-        stick->Update();
+        //Update sticks
+        for (Stick *stick : _sticks)
+        {
+            stick->Update();
+        }   
+        
+        //Constrain points
+        for (Dot* dot : _dots)
+        {
+            dot->ApplyConstraints();
+        }
     }
+
 }
 
 //Refresh current frame
