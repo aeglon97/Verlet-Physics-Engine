@@ -10,7 +10,7 @@
 class Dot
 {
 public:
-    Dot(SDL_Window* window, SDL_Renderer* renderer);
+    Dot();
     ~Dot() = default;
     
     bool LoadTexture(const char* path);
@@ -30,7 +30,8 @@ public:
     double getX() { return _imageX; }
     double getY() { return _imageY; }
     double getRadius() { return _radius; }
-    void setRenderer(SDL_Window* window);
+    void setRenderer(SDL_Renderer* renderer) { _renderer = renderer; }
+    void setWindow(SDL_Window* window) { _window = window; }
 
     //Coordinate offsetting
     double getCenterX() { return _imageX + _radius; }

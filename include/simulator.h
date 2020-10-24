@@ -30,6 +30,9 @@ public:
     SDL_Renderer* InitializeRenderer();
     std::vector<Dot*> InitializeDots(const int n);
 
+    //Render entities
+    void InitializeCloth(const int height, const int width);
+
 private:
     //Window attributes
     const int _screenWidth;

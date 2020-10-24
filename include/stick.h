@@ -6,10 +6,13 @@
 class Stick
 {
 public:
-    Stick(Dot* a, Dot* b, SDL_Window* window, SDL_Renderer* renderer);
+    Stick(Dot* a, Dot* b);
     void Update();
     void Draw();
 
+
+    void setRenderer(SDL_Renderer* renderer) { _renderer = renderer; }
+    void setWindow(SDL_Window* window) { _window = window; }
     //Pass to initializer list
     double InitializeLength();
     void Hide(bool hide) { _hidden = hide; }

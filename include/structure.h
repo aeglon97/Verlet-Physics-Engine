@@ -31,7 +31,7 @@ protected:
 class Cloth : public Structure
 {
 public:
-    Cloth(const int width, const int height, SDL_Window* window, SDL_Renderer* renderer);
+    Cloth(const int numPerRow, const int numPerColumn);
     void Update(double deltaTime) { Structure::Update(deltaTime); }
     void Draw() { Structure::Draw(); }
     
@@ -41,8 +41,8 @@ public:
 
 private:
     
-    const int _width;
-    const int _height;
+    const int _numPerRow;
+    const int _numPerColumn;
 };
 
 #endif

@@ -1,14 +1,8 @@
 #include "dot.h"
 
-Dot::Dot(SDL_Window* window, SDL_Renderer* renderer) : _window(window), _renderer(renderer)
+Dot::Dot()
 {
     //Load image
-    if (!LoadTexture("../img/dot.png"))
-    {
-        std::cerr << "Failed to render dot.bmp in constructor. Error: " << SDL_GetError() << std::endl;
-        return;
-    }
-
     _radius = 5;
     _diameter = _radius * 2;
 
@@ -40,6 +34,7 @@ void Dot::SetPosition(const int x, const int y)
 //Initialize dot texture
 bool Dot::LoadTexture(const char* path)
 {
+
     bool success = true;
 
     //Initialize image loaders
@@ -151,6 +146,12 @@ void Dot::Update(double deltaTime)
 //Render texture to screen
 void Dot::Draw()
 {   
+     if (!LoadTexture("../img/dot.png"))
+    {
+        std::cerr << "Failed to render dot.bmp in constructor. Error: " << SDL_GetError() << std::endl;
+        return;
+    }
+    
     SDL_RenderCopy(_renderer, _texture, NULL, &_imagePos);
 }
 

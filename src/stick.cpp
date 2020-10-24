@@ -1,8 +1,8 @@
 #include "stick.h"
 #include <cmath>
 
-Stick::Stick(Dot* dotA, Dot* dotB, SDL_Window* window, SDL_Renderer* renderer): _dotA(dotA),
-_dotB(dotB), _length(InitializeLength()), _window(window), _renderer(renderer)
+Stick::Stick(Dot* dotA, Dot* dotB) :
+    _dotA(dotA), _dotB(dotB), _length(InitializeLength())
 {
     
 }  
