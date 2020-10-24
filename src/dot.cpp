@@ -155,7 +155,6 @@ void Dot::Update(double deltaTime)
 //Render texture to screen
 void Dot::Draw()
 {   
-    // SDL_Rect RenderQuad = {_imagePos.x, _imagePos.y, _radius * 2, _radius * 2};
     SDL_RenderCopy(_renderer, _texture, NULL, &_imagePos);
 }
 

@@ -87,7 +87,7 @@ void Simulator::Update(double deltaTime)
 
     for (Stick *stick : _sticks)
     {
-        // stick->Update();
+        stick->Update();
     }
 }
 
