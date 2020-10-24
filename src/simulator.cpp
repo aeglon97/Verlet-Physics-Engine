@@ -16,17 +16,20 @@ Simulator::Simulator(const int screenWidth, const int screenHeight)
     // Initialize sprite positions
     for (Dot* dot: _dots) 
     {
-        const int xMax = (rand() % _screenWidth);
-        const int yMax = (rand() % _screenHeight);
-        dot->SetPosition(_window, xMax, yMax);
+        const int xMax = rand() % _screenWidth;
+        const int yMax = rand() % _screenHeight;
+        dot->SetPosition(xMax, yMax);
     }
-    
 
+    // _dots[0]->SetPosition(0, 0);
+    // _dots[1]->SetPosition(0, 50);
+    // _dots[2]->SetPosition(50, 0);
+    // _dots[3]->SetPosition(50, 50);
 
     _sticks.push_back(new Stick(_dots[0], _dots[1], _window, _renderer));
     _sticks.push_back(new Stick(_dots[1], _dots[2], _window, _renderer));
-    // _sticks.push_back(new Stick(_dots[2], _dots[3], _window, _renderer));
-    // _sticks.push_back(new Stick(_dots[0], _dots[3], _window, _renderer));
+    _sticks.push_back(new Stick(_dots[2], _dots[3], _window, _renderer));
+    _sticks.push_back(new Stick(_dots[0], _dots[3], _window, _renderer));
 }
 
 //Create vector of dots, passed to initializer list

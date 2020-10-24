@@ -14,7 +14,7 @@ public:
     ~Dot() = default;
     
     bool LoadTexture(const char* path);
-    void SetPosition(SDL_Window* window, const int xMax, const int yMax);
+    void SetPosition(const int xMax, const int yMax);
     void Update(double deltaTime);
     void Draw();
     void HandleEvents(SDL_Event const &e);

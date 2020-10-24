@@ -33,7 +33,7 @@ void Stick::Update()
     _dotB->setX(_dotB->getX() +offsetX);
     _dotB->setY(_dotB->getY() +offsetY);
     _dotA->setX(_dotA->getX() - offsetX);
-    _dotA->setY(_dotB->getY() - offsetY);
+    _dotA->setY(_dotA->getY() - offsetY);
 }
 
 void Stick::Draw()

@@ -27,7 +27,7 @@ Dot::Dot(SDL_Window* window, SDL_Renderer* renderer) : _window(window), _rendere
 }
 
 //Manually set position of Dot
-void Dot::SetPosition(SDL_Window* window, const int x, const int y)
+void Dot::SetPosition(const int x, const int y)
 {
     //Randomly generate starting coordinates
 
