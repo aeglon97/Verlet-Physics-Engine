@@ -10,7 +10,7 @@
 class Dot
 {
 public:
-    Dot();
+    Dot(double radius);
     ~Dot() = default;
     
     bool LoadTexture(const char* path);

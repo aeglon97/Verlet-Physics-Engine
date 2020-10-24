@@ -4,40 +4,35 @@
 #include <memory>
 
 //Initialize window and renderer in initializer list
-Simulator::Simulator(const int screenWidth, const int screenHeight) 
-    :   _screenWidth(screenWidth),
-        _screenHeight(screenHeight),
-        _window(InitializeWindow()),
-        _renderer(InitializeRenderer()),
-        _dots(InitializeDots(4))
+Simulator::Simulator(const int screenWidth, const int screenHeight) :
+        _screenWidth(screenWidth),
+        _screenHeight(screenHeight)
 {
     srand((unsigned int)time(NULL));
 
+    _window = InitializeWindow();
+    _renderer = InitializeRenderer();
     
 
     //Initialize cloth
-    // InitializeCloth(10, 10);
+    InitializeCloth(10, 10);
 
-    // _forms.push_back(new Structure::Cloth(10, 10, _screenWidth, _screenHeight));
-    // Initialize sprite positions
-    // for (Dot* dot: _dots) 
-    // {
-    //     dot->SetPosition(xMax, yMax);
-    // }
+    
+    InitializeDots(4);
     _dots[0]->SetPosition(100, 100);
     _dots[1]->SetPosition(200, 100);
     _dots[2]->SetPosition(200, 200);
     _dots[3]->SetPosition(100, 200);
     _dots[0]->Pin(true);
 
-    // _sticks.push_back(new Stick(_dots[0], _dots[1], _window, _renderer));
-    // _sticks.push_back(new Stick(_dots[1], _dots[2], _window, _renderer));
-    // _sticks.push_back(new Stick(_dots[2], _dots[3], _window, _renderer));
-    // _sticks.push_back(new Stick(_dots[0], _dots[3], _window, _renderer));
-    // _sticks.push_back(new Stick(_dots[0], _dots[2], _window, _renderer));
-    // _sticks[4]->Hide(true);
 
-    
+    _sticks.push_back(new Stick(_dots[0], _dots[1]));
+    _sticks.push_back(new Stick(_dots[1], _dots[2]));
+    _sticks.push_back(new Stick(_dots[2], _dots[3]));
+    _sticks.push_back(new Stick(_dots[0], _dots[3]));
+    _sticks.push_back(new Stick(_dots[0], _dots[2]));
+    _sticks[4]->Hide(true);
+
 }
 
 //Initialize cloth
@@ -50,18 +45,16 @@ void Simulator::InitializeCloth(const int height, const int width)
 }
 
 //Create vector of dots, passed to initializer list
-std::vector<Dot*> Simulator::InitializeDots(const int n)
+void Simulator::InitializeDots(const int n)
 {
     std::vector<Dot*> dots;
     for (int i = 0; i < n; ++i)
     {
-        Dot *dot = new Dot();
+        Dot *dot = new Dot(10);
         dot->setWindow(_window);
         dot->setRenderer(_renderer);
-        dots.push_back(dot);
+        _dots.push_back(dot);
     }
-
-    return dots;
 }
 
 //Create window to pass to initializer list

@@ -1,15 +1,14 @@
 #include "dot.h"
 
-Dot::Dot()
+Dot::Dot(double radius) : _radius(radius)
 {
-    //Load image
-    _radius = 5;
     _diameter = _radius * 2;
 
     _imagePos.w = _radius * 2;
     _imagePos.h = _radius * 2;
 
     //Initialize motion variables
+
     //Slow down velocity with each collision
     _bounce = 0.9;
     _gravity = 0.0025;
@@ -151,7 +150,7 @@ void Dot::Draw()
         std::cerr << "Failed to render dot.bmp in constructor. Error: " << SDL_GetError() << std::endl;
         return;
     }
-    
+
     SDL_RenderCopy(_renderer, _texture, NULL, &_imagePos);
 }
 

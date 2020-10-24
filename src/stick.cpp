@@ -2,9 +2,9 @@
 #include <cmath>
 
 Stick::Stick(Dot* dotA, Dot* dotB) :
-    _dotA(dotA), _dotB(dotB), _length(InitializeLength())
+    _dotA(dotA), _dotB(dotB)
 {
-    
+    _length = InitializeLength();
 }  
 
 double Stick::InitializeLength()

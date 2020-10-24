@@ -17,10 +17,10 @@ void Cloth::InitializeDots()
     const int windowWidth = SDL_GetWindowSurface(_window)->w;
     const int windowHeight = SDL_GetWindowSurface(_window)->h;
 
-    _dots.push_back(new Dot());
-    _dots.push_back(new Dot());
-    _dots.push_back(new Dot());
-    _dots.push_back(new Dot());
+    _dots.push_back(new Dot(5));
+    _dots.push_back(new Dot(5));
+    _dots.push_back(new Dot(5));
+    _dots.push_back(new Dot(5));
 
 
     double leftX = (windowWidth / 15) - _dots[0]->getRadius();
@@ -45,7 +45,7 @@ void Cloth::InitializeDots()
     {   
         for(size_t x = leftX; x < rightX; x += stepRow)
         {
-            Dot* dot = new Dot();
+            Dot* dot = new Dot(5);
             dot->SetPosition(x,y);
             
             
@@ -70,6 +70,21 @@ void Cloth::InitializeDots()
         //Pin dots on first row
 }
 
+ Dot* Structure::CreateDot(double radius)
+ {
+     Dot *dot = new Dot(radius);
+    dot->setWindow(_window);
+    dot->setRenderer(_renderer);
+    return dot;
+ }
+
+Stick* Structure::CreateStick(Dot* dotA, Dot* dotB)
+{
+    Stick *stick = new Stick(dotA, dotB);
+    stick->setWindow(_window);
+    stick->setRenderer(_renderer);
+    return stick;
+}
 
 
 void Cloth::InitializeSticks()
@@ -104,3 +119,9 @@ void Structure::Draw()
     // for (Stick* stick : _sticks) { stick->Draw(); }
 }
 
+
+Structure::~Structure()
+{
+    for (Dot* dot : _dots) { delete dot; }
+    for (Stick* stick : _sticks) { delete stick; }
+}

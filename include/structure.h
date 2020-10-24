@@ -7,15 +7,21 @@
 class Structure
 {
 public:
+    ~Structure();
+
     //All child classes update and render the same way
     void Update(double deltaTime);
     void Draw();
     void setWindow(SDL_Window* window) { _window = window; }
     void setRenderer(SDL_Renderer* renderer) { _renderer = renderer; }
 
-    //Gives all child classes ability to create their own forms
+    //Same declaration, different definitions
     virtual void InitializeDots() = 0;
     virtual void InitializeSticks() = 0;
+
+    //Same declaration, same definitions
+    Dot* CreateDot(double radius);
+    Stick* CreateStick(Dot* dotA, Dot* dotB);
 
     std::vector<Dot*> getDots() { return _dots; }
     

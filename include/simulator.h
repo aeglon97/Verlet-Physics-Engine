@@ -28,7 +28,7 @@ public:
     //Pass to initializer list
     SDL_Window* InitializeWindow();
     SDL_Renderer* InitializeRenderer();
-    std::vector<Dot*> InitializeDots(const int n);
+    void InitializeDots(const int n);
 
     //Render entities
     void InitializeCloth(const int height, const int width);
