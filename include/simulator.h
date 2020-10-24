@@ -20,6 +20,8 @@ public:
 
     void Loop();
     void Update(double deltaTime);
+    void UpdateSticks();
+    void UpdateDots();
     void Draw();
 
     //Pass to initializer list

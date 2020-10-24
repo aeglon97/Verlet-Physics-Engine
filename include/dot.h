@@ -19,7 +19,11 @@ public:
     void Draw();
     void HandleEvents(SDL_Event const &e);
 
+    void Pin(bool pin) { _pinned = pin; }
+    bool Pinned() { return _pinned; }
+
     //getters/setters
+
     // SDL_Renderer* getRenderer() { return _renderer; }
     SDL_Surface* getImage() { return _image; }
     SDL_Texture* getTexture() { return _texture; }
@@ -59,7 +63,7 @@ private:
     double _bounce;
     double _gravity;
     double _friction;
-
+    bool _pinned{false};
     //Current displayed texture
     SDL_Texture *_texture;
 };

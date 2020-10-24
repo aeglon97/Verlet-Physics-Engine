@@ -131,24 +131,26 @@ void Dot::ApplyConstraints()
 //Handle motion logic and states
 void Dot::Update(double deltaTime)
 {
-    
-    //Setup velocity + timesteps
-    _velX = (_imageX - _oldX) * _friction;
-    _velY = (_imageY - _oldY) * _friction;  
+    if(!_pinned)
+    {
+        //Setup velocity + timesteps
+        _velX = (_imageX - _oldX) * _friction;
+        _velY = (_imageY - _oldY) * _friction;  
 
-    ApplyConstraints();
+        ApplyConstraints();
 
-    _oldX = _imageX;
-    _oldY = _imageY;
+        _oldX = _imageX;
+        _oldY = _imageY;
 
-    //Move dot
-    _imageX = _imageX + _velX;  
-    _imageY = _imageY + _velY;
-    _imageY += _gravity;
-    
-    //Update window coordinates
-    _imagePos.x = _imageX;
-    _imagePos.y = _imageY;    
+        //Move dot
+        _imageX = _imageX + _velX;  
+        _imageY = _imageY + _velY;
+        _imageY += _gravity;
+        
+        //Update window coordinates
+        _imagePos.x = _imageX;
+        _imagePos.y = _imageY;
+    }
 }
 
 

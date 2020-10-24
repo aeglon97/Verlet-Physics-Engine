@@ -30,15 +30,26 @@ void Stick::Update()
     double offsetY = deltaY * percent;
 
     //Restabilize dots to stick length
-    _dotB->setX(_dotB->getX() +offsetX);
-    _dotB->setY(_dotB->getY() +offsetY);
-    _dotA->setX(_dotA->getX() - offsetX);
-    _dotA->setY(_dotA->getY() - offsetY);
+    if(!_dotB->Pinned())
+    {
+        _dotB->setX(_dotB->getX() + offsetX);
+        _dotB->setY(_dotB->getY() + offsetY);
+    }
+    
+    if(!_dotA->Pinned())
+    {
+        _dotA->setX(_dotA->getX() - offsetX);
+        _dotA->setY(_dotA->getY() - offsetY);
+    }
 }
 
 void Stick::Draw()
 {
-    SDL_SetRenderDrawColor(_renderer, 0, 0, 0 , SDL_ALPHA_OPAQUE);
-    SDL_RenderDrawLine(_renderer, _dotA->getCenterX(), _dotA->getCenterY(),
+    if(!_hidden)
+    {
+        SDL_SetRenderDrawColor(_renderer, 0, 0, 0 , SDL_ALPHA_OPAQUE);
+        SDL_RenderDrawLine(_renderer, _dotA->getCenterX(), _dotA->getCenterY(),
                         _dotB->getCenterX(), _dotB->getCenterY());
+    }
+    
 }

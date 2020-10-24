@@ -12,6 +12,7 @@ public:
 
     //Pass to initializer list
     double InitializeLength();
+    void Hide(bool hide) { _hidden = hide; }
 
 private:
     SDL_Window* _window;
@@ -24,6 +25,8 @@ private:
     double _length;
     double _deltaX;
     double _deltaY;
+
+    bool _hidden{false};
 
 };
 

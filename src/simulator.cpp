@@ -25,12 +25,14 @@ Simulator::Simulator(const int screenWidth, const int screenHeight)
     _dots[1]->SetPosition(200, 100);
     _dots[2]->SetPosition(200, 200);
     _dots[3]->SetPosition(100, 200);
+    _dots[0]->Pin(true);
 
     _sticks.push_back(new Stick(_dots[0], _dots[1], _window, _renderer));
     _sticks.push_back(new Stick(_dots[1], _dots[2], _window, _renderer));
     _sticks.push_back(new Stick(_dots[2], _dots[3], _window, _renderer));
     _sticks.push_back(new Stick(_dots[0], _dots[3], _window, _renderer));
     _sticks.push_back(new Stick(_dots[0], _dots[2], _window, _renderer));
+    _sticks[4]->Hide(true);
 }
 
 //Create vector of dots, passed to initializer list
@@ -94,23 +96,15 @@ void Simulator::Loop()
 void Simulator::Update(double deltaTime)
 {   
     //Update points
-    for (size_t i = 0; i < _dots.size(); ++i){
-        _dots[i]->Update(deltaTime);
-    }
+    for (Dot* dot : _dots) { dot->Update(deltaTime); }
 
-    for(int i = 0; i < 3; ++i)
+    //Add point rigidity
+    for(int i = 0; i < 5; ++i)
     {
         //Update sticks
-        for (Stick *stick : _sticks)
-        {
-            stick->Update();
-        }   
-        
+        for (Stick *stick : _sticks) { stick->Update(); }
         //Constrain points
-        for (Dot* dot : _dots)
-        {
-            dot->ApplyConstraints();
-        }
+        for (Dot* dot : _dots) { dot->ApplyConstraints(); }
     }
 
 }
@@ -123,16 +117,10 @@ void Simulator::Draw()
     SDL_RenderClear(_renderer);
 
     //Draw dots
-    for (Dot* dot : _dots)
-    {
-        dot->Draw();   
-    }
+    // for (Dot* dot : _dots) { dot->Draw(); }
 
     //Draw sticks
-    for (Stick* stick : _sticks)
-    {
-        stick->Draw();
-    }
+    for (Stick* stick : _sticks) { stick->Draw(); }
 
     //Render to screen
     SDL_RenderPresent(_renderer);
@@ -144,16 +132,10 @@ Simulator::~Simulator()
     SDL_DestroyWindow(_window);
 
     //Deallocate dots in vector
-    for(Dot* dot : _dots)
-    {
-        delete dot;
-    }
+    for(Dot* dot : _dots) { delete dot; }
 
     //Deallocate sticks
-    for(Stick* stick : _sticks)
-    {
-        delete stick;
-    }
+    for(Stick* stick : _sticks) { delete stick; }
 }
 
 
