@@ -5,10 +5,11 @@ Stick::Stick(Dot* dotA, Dot* dotB, SDL_Window* window, SDL_Renderer* renderer): 
 _dotB(dotB), _length(InitializeLength()), _window(window), _renderer(renderer)
 {
     
-}
+}  
 
 double Stick::InitializeLength()
 {
+    //Pythagorean distance 
     double deltaX = _dotB->getX() - _dotA->getX();
     double deltaY = _dotB->getY() - _dotA->getY();
 
@@ -51,5 +52,4 @@ void Stick::Draw()
         SDL_RenderDrawLine(_renderer, _dotA->getCenterX(), _dotA->getCenterY(),
                         _dotB->getCenterX(), _dotB->getCenterY());
     }
-    
 }

@@ -7,6 +7,7 @@
 #include <iostream>
 #include "dot.h"
 #include "stick.h"
+#include "structure.h"
 
 class Dot;
 class Stick;
@@ -38,9 +39,12 @@ private:
     SDL_Event _windowEvent;
     SDL_Renderer* _renderer;
 
-    //Render dots
+    //Render entities
     std::vector<Dot*> _dots;
     std::vector<Stick*> _sticks;
+    std::vector<Structure*> _forms;
+    Cloth* _cloth;
+
 };
 
 

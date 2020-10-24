@@ -9,30 +9,41 @@ Simulator::Simulator(const int screenWidth, const int screenHeight)
         _screenHeight(screenHeight),
         _window(InitializeWindow()),
         _renderer(InitializeRenderer()),
-        _dots(InitializeDots(4))
+        _dots(InitializeDots(0))
 {
     srand((unsigned int)time(NULL));
 
+    const int xMax = rand() % _screenWidth;
+    const int yMax = rand() % _screenHeight;
+
+    _cloth = new Cloth(xMax, yMax, _window, _renderer);
+    _cloth->setWindow(_window);
+    _cloth->setRenderer(_renderer);
+    _cloth->InitializeDots();
+    _cloth->getDots()[0]->SetPosition(xMax, yMax);
+
+    // _forms.push_back(new Structure::Cloth(10, 10, _screenWidth, _screenHeight));
     // Initialize sprite positions
-    // for (Dot* dot: _dots) 
-    // {
-    //     const int xMax = rand() % _screenWidth;
-    //     const int yMax = rand() % _screenHeight;
-    //     dot->SetPosition(xMax, yMax);
-    // }
+    for (Dot* dot: _dots) 
+    {
+        
+        dot->SetPosition(xMax, yMax);
+    }
 
-    _dots[0]->SetPosition(100, 100);
-    _dots[1]->SetPosition(200, 100);
-    _dots[2]->SetPosition(200, 200);
-    _dots[3]->SetPosition(100, 200);
-    _dots[0]->Pin(true);
+    // _dots[0]->SetPosition(100, 100);
+    // _dots[1]->SetPosition(200, 100);
+    // _dots[2]->SetPosition(200, 200);
+    // _dots[3]->SetPosition(100, 200);
+    // _dots[0]->Pin(true);
 
-    _sticks.push_back(new Stick(_dots[0], _dots[1], _window, _renderer));
-    _sticks.push_back(new Stick(_dots[1], _dots[2], _window, _renderer));
-    _sticks.push_back(new Stick(_dots[2], _dots[3], _window, _renderer));
-    _sticks.push_back(new Stick(_dots[0], _dots[3], _window, _renderer));
-    _sticks.push_back(new Stick(_dots[0], _dots[2], _window, _renderer));
-    _sticks[4]->Hide(true);
+    // _sticks.push_back(new Stick(_dots[0], _dots[1], _window, _renderer));
+    // _sticks.push_back(new Stick(_dots[1], _dots[2], _window, _renderer));
+    // _sticks.push_back(new Stick(_dots[2], _dots[3], _window, _renderer));
+    // _sticks.push_back(new Stick(_dots[0], _dots[3], _window, _renderer));
+    // _sticks.push_back(new Stick(_dots[0], _dots[2], _window, _renderer));
+    // _sticks[4]->Hide(true);
+
+    
 }
 
 //Create vector of dots, passed to initializer list
@@ -101,12 +112,15 @@ void Simulator::Update(double deltaTime)
     //Add point rigidity
     for(int i = 0; i < 5; ++i)
     {
+        //Update structures
+        
         //Update sticks
         for (Stick *stick : _sticks) { stick->Update(); }
-        //Constrain points
+        // Constrain points
         for (Dot* dot : _dots) { dot->ApplyConstraints(); }
     }
-
+    _cloth->Update(deltaTime);
+    
 }
 
 //Refresh current frame
@@ -117,10 +131,13 @@ void Simulator::Draw()
     SDL_RenderClear(_renderer);
 
     //Draw dots
-    // for (Dot* dot : _dots) { dot->Draw(); }
+    for (Dot* dot : _dots) { dot->Draw(); }
 
     //Draw sticks
     for (Stick* stick : _sticks) { stick->Draw(); }
+
+    //Draw structures
+    _cloth->Draw();
 
     //Render to screen
     SDL_RenderPresent(_renderer);
@@ -136,6 +153,8 @@ Simulator::~Simulator()
 
     //Deallocate sticks
     for(Stick* stick : _sticks) { delete stick; }
+
+    delete _cloth;
 }
 
 

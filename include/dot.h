@@ -60,9 +60,9 @@ private:
     //Motion variables
     double _velX;
     double _velY;
-    double _bounce;
-    double _gravity;
-    double _friction;
+    double _bounce{1};
+    double _gravity{0.};
+    double _friction{1.0};
     bool _pinned{false};
     //Current displayed texture
     SDL_Texture *_texture;

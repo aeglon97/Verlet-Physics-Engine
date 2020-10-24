@@ -20,17 +20,11 @@ Dot::Dot(SDL_Window* window, SDL_Renderer* renderer) : _window(window), _rendere
     _bounce = 0.9;
     _gravity = 0.0025;
     _friction = 0.999;
-
-    // _bounce = 1.0;
-    // _gravity = 0;
-    // _friction = 1;
 }
 
 //Manually set position of Dot
 void Dot::SetPosition(const int x, const int y)
 {
-    //Randomly generate starting coordinates
-
     _imageX = x + _radius;
     _imageY = y + _radius;
 
