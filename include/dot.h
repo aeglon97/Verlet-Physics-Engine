@@ -28,10 +28,15 @@ public:
     double getRadius() { return _radius; }
     void setRenderer(SDL_Window* window);
 
+    //Coordinate offsetting
+    double getCenterX() { return _imageX + _radius; }
+    double getCenterY() { return _imageY + _radius; }
+
     //Motion handlers
     void ApplyConstraints();
     void setX(double x) { _imageX = x; }
     void setY(double y) { _imageY = y; }
+
 
 private:
     SDL_Window* _window;
@@ -46,6 +51,7 @@ private:
     double _oldY;
 
     double _radius;
+    double _diameter;
     
     //Motion variables
     double _velX;

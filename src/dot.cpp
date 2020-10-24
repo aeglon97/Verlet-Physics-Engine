@@ -11,6 +11,7 @@ Dot::Dot(SDL_Window* window, SDL_Renderer* renderer) : _window(window), _rendere
     }
 
     _radius = 20;
+    _diameter = _radius * 2;
 
     //Initialize motion variables
     //Slow down velocity with each collision
@@ -18,9 +19,9 @@ Dot::Dot(SDL_Window* window, SDL_Renderer* renderer) : _window(window), _rendere
     _gravity = 0.0025;
     _friction = 0.999;
 
-    // _bounce = 1.0;
-    // _gravity = 0;
-    // _friction = 1;
+    _bounce = 1.0;
+    _gravity = 0;
+    _friction = 1;
 }
 
 //Manually set position of Dot
@@ -93,9 +94,9 @@ void Dot::ApplyConstraints()
     }
 
     //X on right side
-    if(_imageX + _radius > windowWidth)
+    if(_imageX + _diameter > windowWidth)
     {
-        _imageX = windowWidth - _radius;
+        _imageX = windowWidth - _radius*2;
         
         //If going right, go left
         if (_velX > 0)
@@ -116,9 +117,9 @@ void Dot::ApplyConstraints()
     }
 
     //Y at bottom
-     if(_imageY + _radius > windowHeight)
+     if(_imageY + _diameter > windowHeight)
     {
-        _imageY = windowHeight - _radius;
+        _imageY = windowHeight - _radius * 2;
         //If going down, go up
         if(_velY > 0)
         {
