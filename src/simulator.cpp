@@ -9,15 +9,24 @@ Simulator::Simulator(const int screenWidth, const int screenHeight)
         _screenHeight(screenHeight),
         _window(InitializeWindow()),
         _renderer(InitializeRenderer()),
-        _dots(InitializeDots(2))
+        _dots(InitializeDots(4))
 {
-    //Initialize sprite positions
+    srand((unsigned int)time(NULL));
+
+    // Initialize sprite positions
     for (Dot* dot: _dots) 
     {
-        dot->SetPosition(_window, _screenWidth, _screenHeight/4);
+        const int xMax = (rand() % _screenWidth);
+        const int yMax = (rand() % _screenHeight);
+        dot->SetPosition(_window, xMax, yMax);
     }
+    
+
 
     _sticks.push_back(new Stick(_dots[0], _dots[1], _window, _renderer));
+    _sticks.push_back(new Stick(_dots[1], _dots[2], _window, _renderer));
+    // _sticks.push_back(new Stick(_dots[2], _dots[3], _window, _renderer));
+    // _sticks.push_back(new Stick(_dots[0], _dots[3], _window, _renderer));
 }
 
 //Create vector of dots, passed to initializer list
@@ -123,6 +132,12 @@ Simulator::~Simulator()
     for(Dot* dot : _dots)
     {
         delete dot;
+    }
+
+    //Deallocate sticks
+    for(Stick* stick : _sticks)
+    {
+        delete stick;
     }
 }
 

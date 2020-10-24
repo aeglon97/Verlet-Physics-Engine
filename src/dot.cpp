@@ -2,7 +2,6 @@
 
 Dot::Dot(SDL_Window* window, SDL_Renderer* renderer) : _window(window), _renderer(renderer)
 {
-    srand((unsigned int)time(NULL));
     //Load image
     if (!LoadTexture("../img/dot.png"))
     {
@@ -10,8 +9,11 @@ Dot::Dot(SDL_Window* window, SDL_Renderer* renderer) : _window(window), _rendere
         return;
     }
 
-    _radius = 20;
+    _radius = 5;
     _diameter = _radius * 2;
+
+    _imagePos.w = _radius * 2;
+    _imagePos.h = _radius * 2;
 
     //Initialize motion variables
     //Slow down velocity with each collision
@@ -19,26 +21,24 @@ Dot::Dot(SDL_Window* window, SDL_Renderer* renderer) : _window(window), _rendere
     _gravity = 0.0025;
     _friction = 0.999;
 
-    _bounce = 1.0;
-    _gravity = 0;
-    _friction = 1;
+    // _bounce = 1.0;
+    // _gravity = 0;
+    // _friction = 1;
 }
 
 //Manually set position of Dot
-void Dot::SetPosition(SDL_Window* window, const int xMax, const int yMax)
+void Dot::SetPosition(SDL_Window* window, const int x, const int y)
 {
     //Randomly generate starting coordinates
 
-    _imageX = (rand() % xMax) - _radius;
-    _imageY = (rand() % yMax) - _radius;
+    _imageX = x + _radius;
+    _imageY = y + _radius;
 
     _oldX = _imageX + 0.25;
     _oldY = _imageY + 0.25;
 
-    _imagePos.x = _imageX + _radius;
-    _imagePos.y = _imageY + _radius;
-    _imagePos.w = _radius * 2;
-    _imagePos.h = _radius * 2;
+    _imagePos.x = _imageX;
+    _imagePos.y = _imageY;
 }
 
 //Resize Dot width and height
