@@ -10,7 +10,6 @@ public:
     void Update();
     void Draw();
 
-
     void setRenderer(SDL_Renderer* renderer) { _renderer = renderer; }
     void setWindow(SDL_Window* window) { _window = window; }
     //Pass to initializer list

@@ -15,7 +15,7 @@ Simulator::Simulator(const int screenWidth, const int screenHeight) :
     
 
     //Initialize cloth
-    InitializeCloth(10, 10);
+    InitializeCloth(20, 20);
 
     // InitializeDots(4);
     // _dots[0]->SetPosition(100, 100);
@@ -37,10 +37,10 @@ Simulator::Simulator(const int screenWidth, const int screenHeight) :
 //Initialize cloth
 void Simulator::InitializeCloth(const int height, const int width)
 {
-    _cloth = new Cloth(10, 10);
+    _cloth = new Cloth(height, width);
     _cloth->setWindow(_window);
     _cloth->setRenderer(_renderer);
-    _cloth->InitializeDots(10);
+    _cloth->InitializeDots(5);
 }
 
 //Create vector of dots, passed to initializer list
