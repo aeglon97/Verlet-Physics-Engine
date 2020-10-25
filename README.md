@@ -32,6 +32,8 @@ A simple cloth simulation using verlet physics. Gravity, friction, and bounce ar
 
 3. Compile: `cmake .. ` followed by `make`
 
+4. Run: `./verlet_simulator`
+
 
 ### Known Bugs
 
