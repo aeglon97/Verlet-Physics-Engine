@@ -10,9 +10,8 @@
 class Dot
 {
 public:
-    Dot();
     Dot(double radius);
-    ~Dot() = default;
+    ~Dot();
     
     void AssignTexture(const char* path);
     void SetPosition(const int xMax, const int yMax);

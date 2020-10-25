@@ -11,14 +11,19 @@ Cloth::Cloth(const int numPerRow, const int numPerColumn) :
 
 Cloth::~Cloth()
 {
+    SDL_DestroyWindow(_window);
+    SDL_DestroyRenderer(_renderer);
     for (auto &vec : _matrix)
     {
         for(auto &dot : vec)
         {
+            SDL_DestroyTexture(dot->getTexture());
             delete dot;
         }
     }
     for (Stick* stick : _sticks) delete stick;
+
+    
 }
 
 //Create matrix
@@ -159,6 +164,13 @@ void Cloth::Update(double deltaTime)
 
 Structure::~Structure()
 {
-    for (Dot* dot : _dots) { delete dot; }
+    SDL_DestroyWindow(_window);
+    SDL_DestroyRenderer(_renderer);
+    
+    for (Dot* dot : _dots) {
+        SDL_DestroyTexture(dot->getTexture());
+        delete dot;
+    }
     for (Stick* stick : _sticks) { delete stick; }
+    delete this;
 }

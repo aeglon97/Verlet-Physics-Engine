@@ -7,6 +7,7 @@ class Stick
 {
 public:
     Stick(Dot* a, Dot* b);
+    ~Stick();
     void Update();
     void Draw();
 

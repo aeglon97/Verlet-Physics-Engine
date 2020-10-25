@@ -15,6 +15,14 @@ Dot::Dot(double radius) : _radius(radius)
     _friction = 1;
 }
 
+Dot::~Dot()
+{
+    SDL_DestroyWindow(_window);
+    SDL_DestroyRenderer(_renderer);
+    SDL_DestroyTexture(_texture);
+    delete this;
+}
+
 //Manually set position of Dot
 void Dot::SetPosition(const int x, const int y)
 {

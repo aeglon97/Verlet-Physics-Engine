@@ -148,12 +148,16 @@ void Simulator::Draw()
 Simulator::~Simulator()
 {
     SDL_DestroyWindow(_window);
+    SDL_DestroyRenderer(_renderer);
 
     //Deallocate dots in vector
-    for(Dot* dot : _dots) { delete dot; }
+    for(Dot* dot : _dots) {
+        SDL_DestroyTexture(dot->getTexture());
+        delete dot;
+        }
 
     //Deallocate sticks
-    for(Stick* stick : _sticks) { delete stick; }
+    for(Stick* stick : _sticks) {delete stick; }
 
     delete _cloth;
 }
