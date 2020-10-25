@@ -16,8 +16,6 @@ public:
     void setRenderer(SDL_Renderer* renderer) { _renderer = renderer; }
 
     //Same declaration, different definitions
-    void InitializeDots(double radius);
-    virtual void InitializeSticks() = 0;
 
     //Same declaration, same definitions
     Dot* CreateDot(double radius);
@@ -46,8 +44,6 @@ public:
     std::vector<std::vector<Dot*>> getMatrix() { return _matrix; }
     
     //Draw unique cloth shape
-    // void InitializeDots(double radius) override;
-    void InitializeSticks() override;
     void CreateMatrix(double radius);
 
 private:

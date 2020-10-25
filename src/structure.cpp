@@ -18,6 +18,7 @@ Cloth::~Cloth()
             delete dot;
         }
     }
+    for (Stick* stick : _sticks) delete stick;
 }
 
 //Create matrix
@@ -99,14 +100,6 @@ Stick* Structure::CreateStick(Dot* dotA, Dot* dotB)
     stick->setRenderer(_renderer);
     return stick;
 }
-
-
-void Cloth::InitializeSticks()
-{
-
-}
-
-
 
 void Structure::Update(double deltaTime)
 {
