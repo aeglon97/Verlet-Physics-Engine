@@ -41,19 +41,20 @@ A simple cloth simulation using verlet physics. Gravity, friction, and bounce ar
 
 - The project demonstrates an understanding of C++ functions and control structures.
 
-- The project uses Object Oriented Programming techniques.
+- The project uses Object Oriented Programming techniques
 
 - Classes use appropriate access specifiers for class members.
 
 - Class constructors utilize member initialization lists.
+    - cloth.h, dot.h, and cloth.h use initializer lists.
 
-- Classes abstract implementation details from their interfaces.
+- Classes abstract implementation details from their interfaces
+    - All non-setter/non-getter functions are abstracted.
+    - Cloth is an abstraction of Structure class.
 
-- Classes encapsulate behavior.
+- Classes encapsulate behavior 
 
-- Classes follow an appropriate inheritance hierarchy (structure.cpp)
+- Classes follow an appropriate inheritance hierarchy (ahild class of class Structure, Cloth, inherits it publicly, and uses its member variables to store and retrieve appropriate data).
 
-- Derived class functions override virtual base class functions.
-
-- The project uses destructors appropriately.
+- The project uses destructors appropriately. (all structures where a Dot or Stick was initialized with the **new** keyword properly deallocates them in its destructor).
 
