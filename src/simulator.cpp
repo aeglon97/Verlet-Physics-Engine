@@ -15,7 +15,7 @@ Simulator::Simulator(const int screenWidth, const int screenHeight) :
     
 
     //Initialize cloth
-    InitializeCloth(20, 20);
+    InitializeCloth(25, 25);
 
     // InitializeDots(4);
     // _dots[0]->SetPosition(100, 100);
@@ -40,7 +40,7 @@ void Simulator::InitializeCloth(const int height, const int width)
     _cloth = new Cloth(height, width);
     _cloth->setWindow(_window);
     _cloth->setRenderer(_renderer);
-    _cloth->InitializeDots(5);
+    _cloth->CreateMatrix(20);
 }
 
 //Create vector of dots, passed to initializer list
@@ -48,7 +48,7 @@ void Simulator::InitializeDots(const int n)
 {
     for (int i = 0; i < n; ++i)
     {
-        Dot *dot = new Dot(10);
+        Dot *dot = new Dot(1);
         dot->setWindow(_window);
         dot->setRenderer(_renderer);
         dot->AssignTexture("../img/dot.png");
@@ -89,6 +89,12 @@ void Simulator::Loop()
                 break;
             }
 
+            for(auto &vec : _cloth->getMatrix()){
+                for(auto &dot : vec)
+                {
+                    dot->HandleEvents(_windowEvent);
+                }
+            }
             //Clear all current sprites, render 10-15 new objects with spacebar
         }
         

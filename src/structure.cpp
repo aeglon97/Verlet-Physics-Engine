@@ -12,11 +12,25 @@ Cloth::Cloth(const int numPerRow, const int numPerColumn) :
     //Connect all dots with lines
 };
 
+Cloth::~Cloth()
+{
+    for (auto &vec : _matrix)
+    {
+        for(auto &dot : vec)
+        {
+            delete dot;
+        }
+    }
+}
+
 //Create matrix
-void Cloth::InitializeDots(double radius)
+void Cloth::CreateMatrix(double radius)
 {
     const int windowWidth = SDL_GetWindowSurface(_window)->w;
     const int windowHeight = SDL_GetWindowSurface(_window)->h;
+
+    //Push rows into columns
+    for(int i = 0; i < _numPerRow; ++i) _matrix.push_back(std::vector<Dot*>(_numPerColumn));
 
     double leftX = (windowWidth / 15) - radius;
     double rightX = windowWidth - (windowWidth / 15) - radius;
@@ -24,13 +38,13 @@ void Cloth::InitializeDots(double radius)
     double upY = (windowHeight / 15) + radius;
     double downY = windowHeight - (windowHeight / 15) - radius;
 
+    std::cout << "x plane limit: " << rightX - leftX << std::endl;
+    std::cout << "y plane limit: " << downY - upY << std::endl;
+
     double stepRow = (rightX - leftX) / _numPerRow;
     double stepColumn = (downY - upY) / _numPerColumn;
 
-    //Set up matrix of uninitialized dots
-
-    //Push rows into columns
-    for(int i = 0; i < _numPerRow; ++i) _matrix.push_back(std::vector<Dot*>(_numPerColumn));
+    
     
     //Row by row scan
     int j = 0;
@@ -40,19 +54,21 @@ void Cloth::InitializeDots(double radius)
         int i = 0;
         for(size_t x = leftX; x < rightX - radius * 2; x += stepRow)
         {
+            int randY = rand() % _numPerColumn;
+
             Dot *currentDot = CreateDot(radius);
 
             _matrix[j][i] = currentDot;
-            _matrix[j][i]->SetPosition(x,y);
+            currentDot->SetPosition(x,y);
+            // currentDot->Hide(true);
+            // std::cout << currentDot->getX() << " ";
             
             //Pin dots on first row
-            if (j == 0) { currentDot->Pin(true); }
-
-            // If not first in row, connect to left
+            if (j == _numPerColumn / 4) { currentDot->Pin(true); }
+            // If dot not first in row, connect to left dot
             if (x != leftX)
             {
                 Dot* leftDot = _matrix[j][i-1];
-                std::cout << "left dot x: " << leftDot->getX() << std::endl;
                 Stick* stick = CreateStick(currentDot, leftDot);
                 _sticks.push_back(stick);
             }
@@ -64,10 +80,10 @@ void Cloth::InitializeDots(double radius)
                 Stick* stick = CreateStick(currentDot, upDot);
                 _sticks.push_back(stick);
             }
-            std::cout << "created row" << std::endl;
             i += 1;
+            // std::cout << i << std::endl;
         }
-        j += 1;
+        j ++;
     }
 }
 
@@ -77,7 +93,7 @@ void Cloth::InitializeDots(double radius)
     Dot *dot = new Dot(radius);
     dot->setWindow(_window);
     dot->setRenderer(_renderer);
-    dot->AssignTexture("../img/dot.png");
+    // dot->AssignTexture("../img/dot.png");
     return dot;
  }
 
@@ -87,7 +103,6 @@ Stick* Structure::CreateStick(Dot* dotA, Dot* dotB)
     Stick *stick = new Stick(dotA, dotB);
     stick->setWindow(_window);
     stick->setRenderer(_renderer);
-    std::cout << "created stick (from Structure method)" << std::endl;
     return stick;
 }
 
@@ -96,6 +111,8 @@ void Cloth::InitializeSticks()
 {
 
 }
+
+
 
 void Structure::Update(double deltaTime)
 {
@@ -138,6 +155,8 @@ void Cloth::Draw()
 
 void Cloth::Update(double deltaTime)
 {
+
+    //Update dots
     int totalNum = _numPerColumn * _numPerRow;
     for(int i = 0; i < totalNum; ++i)
     {
@@ -147,6 +166,7 @@ void Cloth::Update(double deltaTime)
          _matrix[row][column]->Update(deltaTime);
     }
 
+    //Update sticks
     for(Stick *stick : _sticks) { if(stick) stick->Update();}
 }
 

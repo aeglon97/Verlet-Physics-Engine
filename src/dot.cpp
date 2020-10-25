@@ -10,12 +10,11 @@ Dot::Dot(double radius) : _radius(radius)
     //Initialize motion variables
 
     //Slow down velocity with each collision
-    _bounce = 0.8;
-    _gravity = 0.0025;
-    _friction = 0.999;
+    _bounce = 2.00;
+    // _gravity = 0.00001;
+
+    // _friction = 2.00;
 }
-
-
 
 //Manually set position of Dot
 void Dot::SetPosition(const int x, const int y)
@@ -23,10 +22,10 @@ void Dot::SetPosition(const int x, const int y)
     _imageX = x + _radius;
     _imageY = y + _radius;
 
-    _oldX = _imageX + 0.25;
-    _oldY = _imageY + 0.25;
+    _oldX = _imageX;
+    _oldY = _imageY + 5;
 
-    _imagePos.x = _imageX;
+    _imagePos.x = _imageX -= _gravity;
     _imagePos.y = _imageY;
 }
 
@@ -138,12 +137,13 @@ void Dot::Update(double deltaTime)
     }
 }
 
-
 //Render texture to screen
 void Dot::Draw()
 {  
-
-    SDL_RenderCopy(_renderer, _texture, NULL, &_imagePos);
+    if(!_hidden)
+    {
+        SDL_RenderCopy(_renderer, _texture, NULL, &_imagePos);
+    }
 }
 
 void Dot::HandleEvents(SDL_Event const &e)
@@ -151,5 +151,10 @@ void Dot::HandleEvents(SDL_Event const &e)
     switch(e.type)
     {
         //Get dragged when held down by left mouse click
+        if(e.key.keysym.sym == SDL_KEYDOWN);
+        {
+            std::cout << "left mouse clicked";
+            this->Pin(false);
+        }
     }
 }

@@ -23,9 +23,11 @@ public:
     void Pin(bool pin) { _pinned = pin; }
     bool Pinned() { return _pinned; }
 
+    void Hide(bool hide) { _hidden = hide; }
+
     //getters/setters
 
-    // SDL_Renderer* getRenderer() { return _renderer; }
+    SDL_Renderer* getRenderer() { return _renderer; }
     SDL_Surface* getImage() { return _image; }
     SDL_Texture* getTexture() { return _texture; }
     double getX() { return _imageX; }
@@ -49,7 +51,7 @@ public:
 private:
     SDL_Window* _window;
     SDL_Renderer* _renderer;
-
+    SDL_Event* _eventHandler;
     //Dot properties
     SDL_Surface *_image;
     SDL_Rect _imagePos;
@@ -60,6 +62,8 @@ private:
 
     double _radius;
     double _diameter;
+
+    bool _hidden{1};
     
     //Motion variables
     double _velX;

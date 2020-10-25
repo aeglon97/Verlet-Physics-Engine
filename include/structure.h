@@ -16,7 +16,7 @@ public:
     void setRenderer(SDL_Renderer* renderer) { _renderer = renderer; }
 
     //Same declaration, different definitions
-    virtual void InitializeDots(double radius) = 0;
+    void InitializeDots(double radius);
     virtual void InitializeSticks() = 0;
 
     //Same declaration, same definitions
@@ -38,15 +38,19 @@ class Cloth : public Structure
 {
 public:
     Cloth(const int numPerRow, const int numPerColumn);
+    ~Cloth();
+
     void Update(double deltaTime);
     void Draw();
+
+    std::vector<std::vector<Dot*>> getMatrix() { return _matrix; }
     
     //Draw unique cloth shape
-    void InitializeDots(double radius) override;
+    // void InitializeDots(double radius) override;
     void InitializeSticks() override;
+    void CreateMatrix(double radius);
 
 private:
-    
     const int _numPerRow;
     const int _numPerColumn;
     std::vector<std::vector<Dot*>> _matrix;

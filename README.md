@@ -37,4 +37,8 @@
 
 2. [Simulate Tearable Cloth and Ragdolls With Simple Verlet Integration](https://gamedevelopment.tutsplus.com/tutorials/simulate-tearable-cloth-and-ragdolls-with-simple-verlet-integration--gamedev-519)
 
+
+### Known Bugs
+
+- Segmentation fault when dot radius and number of squares per row/column are not multiples of 5.
 ---
