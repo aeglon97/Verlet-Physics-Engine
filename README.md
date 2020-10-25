@@ -1,17 +1,15 @@
-# Verlet-Physics-Engine (In-Progress)
-
----
+# Verlet-Physics-Engine 
 
 ## Description
 
----
+--
 
 A simple cloth simulation using verlet physics. Gravity, friction, and bounce are all accounted for.
 
 
 ## Dependencies for running locally
 
----
+--
 
 - cmake >= 3.7 : All OSes ([click here for instructions](https://cmake.org/install/))
 - make >= 4.1 (Linux, Mac), 3.81 (Windows)
@@ -29,7 +27,7 @@ A simple cloth simulation using verlet physics. Gravity, friction, and bounce ar
 
 ## Build Instructions
 
----
+--
 
 1. Clone this repository
 
