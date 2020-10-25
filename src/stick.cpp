@@ -48,7 +48,7 @@ void Stick::Draw()
 {
     if(!_hidden)
     {
-        SDL_SetRenderDrawColor(_renderer, 0, 0, 0 , SDL_ALPHA_OPAQUE);
+        SDL_SetRenderDrawColor(_renderer, 255, 255, 255 , SDL_ALPHA_OPAQUE);
         SDL_RenderDrawLine(_renderer, _dotA->getCenterX(), _dotA->getCenterY(),
                         _dotB->getCenterX(), _dotB->getCenterY());
     }

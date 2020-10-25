@@ -63,7 +63,7 @@ private:
     double _radius;
     double _diameter;
 
-    bool _hidden{1};
+    bool _hidden{0};
     
     //Motion variables
     double _velX;

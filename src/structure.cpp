@@ -7,9 +7,6 @@
 Cloth::Cloth(const int numPerRow, const int numPerColumn) :
     _numPerRow(numPerRow), _numPerColumn(numPerColumn)
 {
-    //Create matrix of dots
-
-    //Connect all dots with lines
 };
 
 Cloth::~Cloth()
@@ -38,9 +35,6 @@ void Cloth::CreateMatrix(double radius)
     double upY = (windowHeight / 15) + radius;
     double downY = windowHeight - (windowHeight / 15) - radius;
 
-    std::cout << "x plane limit: " << rightX - leftX << std::endl;
-    std::cout << "y plane limit: " << downY - upY << std::endl;
-
     double stepRow = (rightX - leftX) / _numPerRow;
     double stepColumn = (downY - upY) / _numPerColumn;
 
@@ -64,7 +58,7 @@ void Cloth::CreateMatrix(double radius)
             // std::cout << currentDot->getX() << " ";
             
             //Pin dots on first row
-            if (j == _numPerColumn / 4) { currentDot->Pin(true); }
+            if (j == 0) { currentDot->Pin(true); }
             // If dot not first in row, connect to left dot
             if (x != leftX)
             {
@@ -116,11 +110,11 @@ void Cloth::InitializeSticks()
 
 void Structure::Update(double deltaTime)
 {
-    // for (Dot* dot : _dots)
-    // {
-    //     dot->Update(deltaTime);
-    //     // dot->ApplyConstraints();
-    // }
+    for (Dot* dot : _dots)
+    {
+        dot->Update(deltaTime);
+        // dot->ApplyConstraints();
+    }
 
      //Add point rigidity
     for(int i = 0; i < 5; ++i)

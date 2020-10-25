@@ -17,12 +17,12 @@ Simulator::Simulator(const int screenWidth, const int screenHeight) :
     //Initialize cloth
     InitializeCloth(25, 25);
 
-    // InitializeDots(4);
-    // _dots[0]->SetPosition(100, 100);
-    // _dots[1]->SetPosition(200, 100);
-    // _dots[2]->SetPosition(200, 200);
-    // _dots[3]->SetPosition(100, 200);
-    // _dots[0]->Pin(true);
+    InitializeDots(4);
+    _dots[0]->SetPosition(100, 100);
+    _dots[1]->SetPosition(200, 100);
+    _dots[2]->SetPosition(200, 200);
+    _dots[3]->SetPosition(100, 200);
+    _dots[0]->Pin(true);
 
 
     // _sticks.push_back(new Stick(_dots[0], _dots[1]));
@@ -128,7 +128,7 @@ void Simulator::Update(double deltaTime)
 void Simulator::Draw()
 {
     //Clear screen
-    SDL_SetRenderDrawColor(_renderer, 255, 255, 255, 255);
+    SDL_SetRenderDrawColor(_renderer, 0, 0, 0, 0);
     SDL_RenderClear(_renderer);
 
     //Draw dots

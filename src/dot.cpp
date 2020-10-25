@@ -10,10 +10,9 @@ Dot::Dot(double radius) : _radius(radius)
     //Initialize motion variables
 
     //Slow down velocity with each collision
-    _bounce = 2.00;
-    // _gravity = 0.00001;
-
-    // _friction = 2.00;
+    _bounce = .8;
+    _gravity = 0.0025;
+    _friction = 1;
 }
 
 //Manually set position of Dot
@@ -22,11 +21,11 @@ void Dot::SetPosition(const int x, const int y)
     _imageX = x + _radius;
     _imageY = y + _radius;
 
-    _oldX = _imageX;
-    _oldY = _imageY + 5;
+    _oldX = _imageX - 2;
+    _oldY = _imageY - 2;;
 
-    _imagePos.x = _imageX -= _gravity;
-    _imagePos.y = _imageY;
+    _imagePos.x = _imageX;
+    _imagePos.y = _imageY +_gravity;
 }
 
 //Initialize dot texture
