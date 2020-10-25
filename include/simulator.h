@@ -26,8 +26,8 @@ public:
     void Draw();
 
     //Pass to initializer list
-    SDL_Window* InitializeWindow();
-    SDL_Renderer* InitializeRenderer();
+    void InitializeWindow();
+    void InitializeRenderer();
     void InitializeDots(const int n);
 
     //Render entities

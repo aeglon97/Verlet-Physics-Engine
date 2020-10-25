@@ -10,10 +10,11 @@
 class Dot
 {
 public:
+    Dot();
     Dot(double radius);
     ~Dot() = default;
     
-    bool LoadTexture(const char* path);
+    void AssignTexture(const char* path);
     void SetPosition(const int xMax, const int yMax);
     void Update(double deltaTime);
     void Draw();
@@ -30,8 +31,10 @@ public:
     double getX() { return _imageX; }
     double getY() { return _imageY; }
     double getRadius() { return _radius; }
+
     void setRenderer(SDL_Renderer* renderer) { _renderer = renderer; }
     void setWindow(SDL_Window* window) { _window = window; }
+    void setRadius(double radius) { _radius = radius; }
 
     //Coordinate offsetting
     double getCenterX() { return _imageX + _radius; }
@@ -62,8 +65,8 @@ private:
     double _velX;
     double _velY;
     double _bounce{1};
-    double _gravity{0.};
-    double _friction{1.0};
+    double _gravity{0};
+    double _friction{1};
     bool _pinned{false};
     //Current displayed texture
     SDL_Texture *_texture;

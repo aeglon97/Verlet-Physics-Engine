@@ -4,16 +4,18 @@ Dot::Dot(double radius) : _radius(radius)
 {
     _diameter = _radius * 2;
 
-    _imagePos.w = _radius * 2;
-    _imagePos.h = _radius * 2;
+    _imagePos.w = _diameter;
+    _imagePos.h = _diameter;
 
     //Initialize motion variables
 
     //Slow down velocity with each collision
-    _bounce = 0.9;
+    _bounce = 0.8;
     _gravity = 0.0025;
     _friction = 0.999;
 }
+
+
 
 //Manually set position of Dot
 void Dot::SetPosition(const int x, const int y)
@@ -28,14 +30,9 @@ void Dot::SetPosition(const int x, const int y)
     _imagePos.y = _imageY;
 }
 
-//Resize Dot width and height
-
 //Initialize dot texture
-bool Dot::LoadTexture(const char* path)
+void Dot::AssignTexture(const char* path)
 {
-
-    bool success = true;
-
     //Initialize image loaders
     int flags = IMG_INIT_JPG | IMG_INIT_PNG;
     int initiatedFlags = IMG_Init(flags);
@@ -43,7 +40,7 @@ bool Dot::LoadTexture(const char* path)
     if((initiatedFlags & flags) != flags)
     {
         std::cerr << "Failed to properly initialize image loaders. Error: " << SDL_GetError() << std::endl;
-        return !success;
+        return;
     }
 
     //Load image at path
@@ -51,7 +48,7 @@ bool Dot::LoadTexture(const char* path)
     if (imageSurface == nullptr)
     {
         std::cerr << "Failed to load dot.bmp surface. Error: " << SDL_GetError() << std::endl;
-        return !success;
+        return;
     }
 
     //Create texture from surface pixels
@@ -59,9 +56,8 @@ bool Dot::LoadTexture(const char* path)
     if (_texture == nullptr)
     {
         std::cerr << "Failed to load dot.bmp texture. Error: " << SDL_GetError() << std::endl;
-        return !success;
+        return;
     }
-    return success;
 }
 
 //When dot is at edge of window
@@ -84,7 +80,7 @@ void Dot::ApplyConstraints()
     //X on right side
     if(_imageX + _diameter > windowWidth)
     {
-        _imageX = windowWidth - _radius*2;
+        _imageX = windowWidth - _diameter;
         
         //If going right, go left
         if (_velX > 0)
@@ -97,21 +93,22 @@ void Dot::ApplyConstraints()
     if(_imageY < 0)
     {
         _imageY = 0;
+
         //If going up, go down
         if(_velY < 0)
         {
-            _velY = _velY *- 1 * _bounce;
+            _velY = _velY * -1 * _bounce;
         }
     }
 
     //Y at bottom
      if(_imageY + _diameter > windowHeight)
     {
-        _imageY = windowHeight - _radius * 2;
+        _imageY = windowHeight - _diameter;
         //If going down, go up
         if(_velY > 0)
         {
-            _velY = (_velY *- 1) * _bounce;
+            _velY = _velY * -1 * _bounce;
         }
     }
 }
@@ -144,12 +141,7 @@ void Dot::Update(double deltaTime)
 
 //Render texture to screen
 void Dot::Draw()
-{   
-     if (!LoadTexture("../img/dot.png"))
-    {
-        std::cerr << "Failed to render dot.bmp in constructor. Error: " << SDL_GetError() << std::endl;
-        return;
-    }
+{  
 
     SDL_RenderCopy(_renderer, _texture, NULL, &_imagePos);
 }
