@@ -22,13 +22,6 @@
 # COMPILER_FLAGS = -w
 # LINKER_FLAGS = -lSDL2 -lSDL2_image
 
-.PHONY: all
-all: format test build
-
-.PHONY: format
-format:
-	clang-format src/* include/* -i
-
 .PHONY: build
 build:
 	mkdir -p build
@@ -46,4 +39,5 @@ debug:
 .PHONY: clean
 clean:
 	rm -rf build
+	rm -rf debug
 

@@ -7,6 +7,15 @@ Stick::Stick(Dot* dotA, Dot* dotB) :
     _length = InitializeLength();
 }  
 
+Stick::~Stick()
+{
+    SDL_DestroyWindow(_window);
+    SDL_DestroyRenderer(_renderer);
+    delete _dotA;
+    delete _dotB;
+    delete this;
+}
+
 double Stick::InitializeLength()
 {
     //Pythagorean distance 
