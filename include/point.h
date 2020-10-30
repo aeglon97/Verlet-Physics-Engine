@@ -18,6 +18,8 @@ public:
 
     void setRenderer(SDL_Renderer* renderer) { _renderer = renderer; }
     void setWindow(SDL_Window* window) { _window = window; }
+    void setX(double x) { _x = x; }
+    void setY(double y) { _y = y; }
 
     void Pin(bool pin) { _pinned = pin; }
     bool Pinned() { return _pinned; }
@@ -28,6 +30,8 @@ public:
     //Getters/setters
     SDL_Renderer* getRenderer() { return _renderer; }
     SDL_Window* getWindow() { return _window; }
+    double getX() { return _x; }
+    double getY() { return _y; }
 
 private:
     //Main attributes

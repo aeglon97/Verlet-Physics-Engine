@@ -8,9 +8,11 @@
 #include "dot.h"
 #include "stick.h"
 #include "structure.h"
+#include "engine.h"
 
 class Dot;
 class Stick;
+class Engine;
 
 class Simulator
 {
@@ -42,6 +44,8 @@ private:
     SDL_Surface *_windowSurface;
     SDL_Event _windowEvent;
     SDL_Renderer* _renderer;
+
+    Engine* _engine;
 
     //Render entities
     std::vector<Dot*> _dots;

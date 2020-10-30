@@ -25,12 +25,12 @@ Simulator::Simulator(const int screenWidth, const int screenHeight) :
     _dots[3]->SetPosition(100, 200);
     _dots[0]->Pin(true);
 
-    Engine engine = Engine();
-    engine.setBounce(0.4);
-    engine.setGravity(0.00025);
-    engine.setFriction(.999);
+    _engine = new Engine();
+    _engine->setBounce(0.4);
+    _engine->setGravity(0.00025);
+    _engine->setFriction(.999);
 
-    std::cout << engine.getBounce() << engine.getGravity() << engine.getFriction() << std::endl;
+    std::cout << _engine->getBounce() << _engine->getGravity() << _engine->getFriction() << std::endl;
 
 
     // _sticks.push_back(new Stick(_dots[0], _dots[1]));
@@ -175,6 +175,8 @@ Simulator::~Simulator()
     for(Stick* stick : _sticks) {delete stick; }
 
     delete _cloth;
+
+    delete _engine;
 }
 
 
