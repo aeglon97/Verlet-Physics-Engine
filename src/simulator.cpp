@@ -1,5 +1,6 @@
 #include "simulator.h"
 #include "stick.h"
+#include "engine.h"
 #include <random>
 #include <memory>
 
@@ -24,6 +25,13 @@ Simulator::Simulator(const int screenWidth, const int screenHeight) :
     _dots[3]->SetPosition(100, 200);
     _dots[0]->Pin(true);
 
+    Engine engine = Engine();
+    engine.setBounce(0.4);
+    engine.setGravity(0.00025);
+    engine.setFriction(.999);
+
+    std::cout << engine.getBounce() << engine.getGravity() << engine.getFriction() << std::endl;
+
 
     // _sticks.push_back(new Stick(_dots[0], _dots[1]));
     // _sticks.push_back(new Stick(_dots[1], _dots[2]));
@@ -46,7 +54,7 @@ void Simulator::InitializeCloth(const int height, const int width)
 //Create points
 void Simulator::InitializePoints(const int n)
 {
-    
+
 }
 
 //Create vector of dots, passed to initializer list

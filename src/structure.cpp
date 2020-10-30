@@ -22,8 +22,6 @@ Cloth::~Cloth()
         }
     }
     for (Stick* stick : _sticks) delete stick;
-
-    
 }
 
 //Create matrix

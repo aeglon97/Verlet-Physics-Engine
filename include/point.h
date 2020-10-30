@@ -6,7 +6,11 @@
 #include <SDL2/SDL.h>
 #include <iostream>
 
-class Point
+#include "engine.h"
+
+class Engine;
+
+class Point : public Engine
 {
 public:
     Point();
@@ -24,8 +28,6 @@ public:
     //Getters/setters
     SDL_Renderer* getRenderer() { return _renderer; }
     SDL_Window* getWindow() { return _window; }
-    
-
 
 private:
     //Main attributes
