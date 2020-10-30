@@ -1,5 +1,8 @@
+[] Separate Ball class and Point class
+    - former has radius, latter doesnt
+
 [] Render points by using other graphics libraries. Use instead of png textures
-[] Recalibrate radius offset logic
+    [] Recalibrate radius offset logic
 [] Create stick figures
 [] Add timesteps (tentative)
 [] Integrate collision detection so points/structures bounce off each other

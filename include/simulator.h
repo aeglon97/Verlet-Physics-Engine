@@ -29,6 +29,7 @@ public:
     void InitializeWindow();
     void InitializeRenderer();
     void InitializeDots(const int n);
+    void InitializePoints(const int n);
 
     //Render entities
     void InitializeCloth(const int height, const int width);

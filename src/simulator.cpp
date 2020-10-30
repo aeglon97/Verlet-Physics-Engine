@@ -43,7 +43,14 @@ void Simulator::InitializeCloth(const int height, const int width)
     _cloth->CreateMatrix(20);
 }
 
+//Create points
+void Simulator::InitializePoints(const int n)
+{
+    
+}
+
 //Create vector of dots, passed to initializer list
+//TODO: Repurpose Dots to be Balls
 void Simulator::InitializeDots(const int n)
 {
     for (int i = 0; i < n; ++i)
