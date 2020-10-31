@@ -23,7 +23,7 @@ public:
     double getGravity() { return _gravity; }
     double getFriction() { return _friction; }
 
-private:
+protected:
     double _bounce{1};
     double _gravity{0};
     double _friction{1};

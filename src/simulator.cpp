@@ -1,6 +1,7 @@
 #include "simulator.h"
 #include "stick.h"
 #include "engine.h"
+#include "point.h"
 #include <random>
 #include <memory>
 
@@ -18,19 +19,23 @@ Simulator::Simulator(const int screenWidth, const int screenHeight) :
     //Initialize cloth
     InitializeCloth(25, 25);
 
-    InitializeDots(4);
-    _dots[0]->SetPosition(100, 100);
-    _dots[1]->SetPosition(200, 100);
-    _dots[2]->SetPosition(200, 200);
-    _dots[3]->SetPosition(100, 200);
-    _dots[0]->Pin(true);
+    // InitializeDots(4);
+    // _dots[0]->SetPosition(100, 100);
+    // _dots[1]->SetPosition(200, 100);
+    // _dots[2]->SetPosition(200, 200);
+    // _dots[3]->SetPosition(100, 200);
+    // _dots[0]->Pin(true);
+
+    //InitializePoints(4);
 
     _engine = new Engine();
-    _engine->setBounce(0.4);
-    _engine->setGravity(0.00025);
-    _engine->setFriction(.999);
+    std::cout << _engine->getFriction() << std::endl;
 
-    std::cout << _engine->getBounce() << _engine->getGravity() << _engine->getFriction() << std::endl;
+    
+    Point point = Point(10, 10);
+    point.setFriction(0.999);
+    std::cout << point.getFriction() << std::endl;
+    std::cout << _engine->getFriction() << std::endl;
 
 
     // _sticks.push_back(new Stick(_dots[0], _dots[1]));
@@ -54,7 +59,10 @@ void Simulator::InitializeCloth(const int height, const int width)
 //Create points
 void Simulator::InitializePoints(const int n)
 {
-
+    for (int i = 0; i < n; ++i)
+    {
+        Point* point = new Point(2, 2);
+    }
 }
 
 //Create vector of dots, passed to initializer list

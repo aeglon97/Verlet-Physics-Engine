@@ -13,19 +13,23 @@ class Engine;
 class Point : public Engine
 {
 public:
-    Point();
+    Point(double velX, double velY);
     ~Point();
 
     void setRenderer(SDL_Renderer* renderer) { _renderer = renderer; }
     void setWindow(SDL_Window* window) { _window = window; }
     void setX(double x) { _x = x; }
     void setY(double y) { _y = y; }
+    void setPosition(double x, double y);
+    void ApplyConstraints();
+
+    //Velocity
+
 
     void Pin(bool pin) { _pinned = pin; }
     bool Pinned() { return _pinned; }
 
     void Update(double deltaTime);
-    void Draw();
 
     //Getters/setters
     SDL_Renderer* getRenderer() { return _renderer; }
@@ -39,6 +43,10 @@ private:
     SDL_Window* _window;
 
     bool _pinned{0};
+
+    //Velocity
+    double _velX;
+    double _velY;
 
     //Position variables
     double _x;
