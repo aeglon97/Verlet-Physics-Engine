@@ -16,7 +16,7 @@ Simulator::Simulator(const int screenWidth, const int screenHeight) :
     
 
     //Initialize cloth
-    InitializeCloth(25, 25);
+    InitializeCloth(20, 20);
 
     // InitializeDots(4);
     // _dots[0]->SetPosition(100, 100);
@@ -25,9 +25,9 @@ Simulator::Simulator(const int screenWidth, const int screenHeight) :
     // _dots[3]->SetPosition(100, 200);
     // _dots[0]->Pin(true);
 
-    // InitializePoints(4);
-    // _points[0]->setPosition(100, 100);
-    // _points[1]->setPosition(200, 200);
+    InitializePoints(4);
+    _points[0]->setPosition(100, 100);
+    _points[1]->setPosition(200, 200);
     // std::cout << _points[0]->getX() << _points[0]->getY() << std::endl;
     // std::cout << _points[1]->getX() << _points[1]->getY() << std::endl;
 
@@ -54,7 +54,8 @@ void Simulator::InitializeCloth(const int height, const int width)
     _cloth = new Cloth(height, width);
     _cloth->setWindow(_window);
     _cloth->setRenderer(_renderer);
-    _cloth->CreateMatrix(20);
+    _cloth->CreateMatrix(0);
+    std::cout << "Created matrix" << std::endl;
 }
 
 //Create points
@@ -147,7 +148,15 @@ void Simulator::Update(double deltaTime)
         // Constrain points
         // for (Dot* dot : _dots) { dot->ApplyConstraints(); }
     }
+    
     _cloth->Update(deltaTime);
+
+    for (Point* point : _points)
+    {
+        point->Update(deltaTime);
+        // std::cout << point->getX() << point->getY() << std::endl;
+        // std::cout << point->getY() << std::endl;
+    }
     
 }
 

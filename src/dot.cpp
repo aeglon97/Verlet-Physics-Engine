@@ -29,11 +29,11 @@ void Dot::SetPosition(const int x, const int y)
     _imageX = x + _radius;
     _imageY = y + _radius;
 
-    _oldX = _imageX - 2;
-    _oldY = _imageY - 2;;
+    _oldX = _imageX;
+    _oldY = _imageY;;
 
     _imagePos.x = _imageX;
-    _imagePos.y = _imageY +_gravity;
+    _imagePos.y = _imageY;
 }
 
 //Initialize dot texture

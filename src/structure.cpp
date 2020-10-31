@@ -40,9 +40,9 @@ void Cloth::CreateMatrix(double radius)
     double downY = windowHeight - (windowHeight / 15) - radius;
 
     double stepRow = (rightX - leftX) / _numPerRow;
+    std::cout << "steprow: " << stepRow << std::endl;
     double stepColumn = (downY - upY) / _numPerColumn;
-
-    
+    std::cout << "stepcolumn: " << stepColumn << std::endl;
     
     //Row by row scan
     int j = 0;
@@ -50,7 +50,7 @@ void Cloth::CreateMatrix(double radius)
     for(size_t y = upY; y < downY; y += stepColumn)
     {   
         int i = 0;
-        for(size_t x = leftX; x < rightX - radius * 2; x += stepRow)
+        for(size_t x = leftX; x < rightX - (radius * 2); x += stepRow)
         {
             int randY = rand() % _numPerColumn;
 
@@ -58,6 +58,7 @@ void Cloth::CreateMatrix(double radius)
 
             _matrix[j][i] = currentDot;
             currentDot->SetPosition(x,y);
+            std::cout << "-------------\nAt dot " << j << ", " << i << std::endl;
             // currentDot->Hide(true);
             // std::cout << currentDot->getX() << " ";
             
@@ -69,6 +70,7 @@ void Cloth::CreateMatrix(double radius)
                 Dot* leftDot = _matrix[j][i-1];
                 Stick* stick = CreateStick(currentDot, leftDot);
                 _sticks.push_back(stick);
+                std::cout << "Created left stick" << std::endl;
             }
 
             //If not first in column, connect upward
@@ -77,11 +79,13 @@ void Cloth::CreateMatrix(double radius)
                 Dot *upDot = _matrix[j-1][i];
                 Stick* stick = CreateStick(currentDot, upDot);
                 _sticks.push_back(stick);
+                std::cout << "Created up stick" << std::endl;
             }
-            i += 1;
-            // std::cout << i << std::endl;
+            i ++;
+            std::cout << "jumped to stick in column " << i << std::endl;
         }
         j ++;
+        std::cout << "jumped to stick in row " << j << std::endl;
     }
 }
 
@@ -91,7 +95,6 @@ void Cloth::CreateMatrix(double radius)
     Dot *dot = new Dot(radius);
     dot->setWindow(_window);
     dot->setRenderer(_renderer);
-    // dot->AssignTexture("../img/dot.png");
     return dot;
  }
 
@@ -136,7 +139,7 @@ void Cloth::Draw()
     int totalNum = _numPerColumn * _numPerRow;
     for(int i = 0; i < totalNum; ++i)
     {
-        int row = floor(i / _numPerRow);
+        int row = i / _numPerRow;
         int column = i % _numPerRow;
         if (_matrix[row][column]) _matrix[row][column]->Draw();
     }
