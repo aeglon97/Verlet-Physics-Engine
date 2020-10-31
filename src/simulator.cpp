@@ -1,7 +1,6 @@
 #include "simulator.h"
 #include "stick.h"
 #include "engine.h"
-#include "point.h"
 #include <random>
 #include <memory>
 
@@ -26,16 +25,18 @@ Simulator::Simulator(const int screenWidth, const int screenHeight) :
     // _dots[3]->SetPosition(100, 200);
     // _dots[0]->Pin(true);
 
-    //InitializePoints(4);
+    // InitializePoints(4);
+    // _points[0]->setPosition(100, 100);
+    // _points[1]->setPosition(200, 200);
+    // std::cout << _points[0]->getX() << _points[0]->getY() << std::endl;
+    // std::cout << _points[1]->getX() << _points[1]->getY() << std::endl;
+
 
     _engine = new Engine();
     std::cout << _engine->getFriction() << std::endl;
 
     
-    Point point = Point(10, 10);
-    point.setFriction(0.999);
-    std::cout << point.getFriction() << std::endl;
-    std::cout << _engine->getFriction() << std::endl;
+    
 
 
     // _sticks.push_back(new Stick(_dots[0], _dots[1]));
@@ -62,6 +63,9 @@ void Simulator::InitializePoints(const int n)
     for (int i = 0; i < n; ++i)
     {
         Point* point = new Point(2, 2);
+        point->setWindow(_window);
+        point->setRenderer(_renderer);
+        _points.push_back(point);
     }
 }
 
@@ -185,6 +189,8 @@ Simulator::~Simulator()
     delete _cloth;
 
     delete _engine;
+
+    for (Point* point : _points) { delete point; }
 }
 
 

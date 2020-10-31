@@ -9,6 +9,7 @@
 #include "stick.h"
 #include "structure.h"
 #include "engine.h"
+#include "point.h"
 
 class Dot;
 class Stick;
@@ -52,6 +53,9 @@ private:
     std::vector<Stick*> _sticks;
     std::vector<Structure*> _forms;
     Cloth* _cloth;
+
+    //Debug Point
+    std::vector<Point*> _points;
 
 };
 
