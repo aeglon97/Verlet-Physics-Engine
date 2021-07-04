@@ -36,29 +36,3 @@ A simple cloth simulation using verlet physics. Gravity, friction, and bounce ar
 
 5. Run: `./verlet_simulator`
 
-
-### Known Bugs
-
-- Segmentation fault when dot radius and number of squares per row/column are changed.
-
-### Rubric requirements met:
-
-- The project demonstrates an understanding of C++ functions and control structures.
-
-- The project uses Object Oriented Programming techniques
-
-- Classes use appropriate access specifiers for class members.
-
-- Class constructors utilize member initialization lists.
-    - cloth.h, dot.h, and cloth.h use initializer lists.
-
-- Classes abstract implementation details from their interfaces
-    - All non-setter/non-getter functions are abstracted.
-    - Cloth is an abstraction of Structure class.
-
-- Classes encapsulate behavior 
-
-- Classes follow an appropriate inheritance hierarchy (ahild class of class Structure, Cloth, inherits it publicly, and uses its member variables to store and retrieve appropriate data).
-
-- The project uses destructors appropriately. (all structures where a Dot or Stick was initialized with the **new** keyword properly deallocates them in its destructor).
-
