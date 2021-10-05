@@ -17,6 +17,7 @@ A simple cloth simulation using verlet physics. Gravity, friction, and bounce ar
 - SDL >= 2.0: All OSes ([click here for instructions](https://wiki.libsdl.org/Installation))
 - SDL_image >= 2.0.5: All OSes([click here for instructions](https://www.libsdl.org/projects/SDL_image/))
     - On Linux command line, enter ``sudo apt-get install -y libsdl2-dev``
+    - Follow subsequent installation steps [here](https://wiki.libsdl.org/Installation)
 - gcc/g++ >= 5.4
     - Linux: gcc/g++ is installed by default on most Linux distros.
     - Mac: already received with make (install Xcode command line tools to get make)
